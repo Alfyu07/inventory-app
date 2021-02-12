@@ -14,7 +14,7 @@ Color greyColor0 = "001B33".toColor().withOpacity(0.6);
 Color greyColor1 = "001B33".toColor().withOpacity(0.3);
 
 TextStyle titleFontStyle0 = GoogleFonts.poppins()
-    .copyWith(color: blackColor, fontSize: 24, fontWeight: FontWeight.w700);
+    .copyWith(color: blackColor, fontSize: 24, fontWeight: FontWeight.bold);
 TextStyle titleFontStyle1 = GoogleFonts.poppins()
     .copyWith(color: blackColor, fontSize: 22, fontWeight: FontWeight.w700);
 TextStyle blackFontStyle0 = GoogleFonts.poppins()
