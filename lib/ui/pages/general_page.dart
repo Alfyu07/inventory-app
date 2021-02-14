@@ -20,6 +20,8 @@ class GeneralPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -35,7 +37,7 @@ class GeneralPage extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: defaultMargin),
                     width: double.infinity,
-                    height: MediaQuery.of(context).size.height * 0.1,
+                    height: size.height * 0.1,
                     color: Colors.white,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,

@@ -12,6 +12,7 @@ Color dangerColor = "EA1601".toColor();
 
 Color greyColor0 = "001B33".toColor().withOpacity(0.6);
 Color greyColor1 = "001B33".toColor().withOpacity(0.3);
+Color lightGreyColor = "EBECF1".toColor();
 
 TextStyle titleFontStyle0 = GoogleFonts.poppins()
     .copyWith(color: blackColor, fontSize: 24, fontWeight: FontWeight.bold);

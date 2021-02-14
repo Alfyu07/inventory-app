@@ -7,14 +7,17 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   String sortBy;
+
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final double assetListWidth = size.width - 2 * defaultMargin;
     return ListView(
       children: [
         //* HEADER
         Container(
             padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-            height: MediaQuery.of(context).size.height * 0.1,
+            height: size.height * 0.1,
             width: double.infinity,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,7 +61,8 @@ class _DashboardPageState extends State<DashboardPage> {
             )),
 
         //* OVERVIEW CARD
-        Container(
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: defaultMargin),
           child: OverviewCard(
             barangBaru: 32,
             jumlahAsset: 120,
@@ -130,17 +134,24 @@ class _DashboardPageState extends State<DashboardPage> {
         ),
         Container(
           //TODO:tambahkan animasi untuk ux scrolling
-          height: MediaQuery.of(context).size.height * 0.45,
+          height: size.height * 0.4,
+          color: kBackgroundColor,
           child: ListView(
               physics: BouncingScrollPhysics(),
               children: mockBarang
                   .map((barang) => Container(
                         margin: EdgeInsets.only(top: 10),
-                        child: CustomItemCard(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: defaultMargin),
+                        child: AssetListItem(
+                          itemWidth: assetListWidth,
                           barang: barang,
                         ),
                       ))
                   .toList()),
+        ),
+        SizedBox(
+          height: 60,
         )
       ],
     );

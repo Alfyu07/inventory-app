@@ -8,7 +8,7 @@ class Barang {
   final String description;
   final String condition;
   final String price;
-  final String tanggalDibeli;
+  final DateTime tanggalDibeli;
   final String qrCode;
 
   Barang(
@@ -17,8 +17,7 @@ class Barang {
       this.name,
       this.description,
       this.condition,
-      this.price, //TODO:tambahkan time pada class barang -> ngurutin
-
+      this.price,
       this.tanggalDibeli,
       this.qrCode});
 }
@@ -31,7 +30,6 @@ List<Barang> mockBarang = [
       name: 'Kucing Rumahan',
       description: 'Kucing ini ramah banget',
       condition: 'bagus',
-      tanggalDibeli: "",
       price: '2.000.000'),
   Barang(
       id: 2,

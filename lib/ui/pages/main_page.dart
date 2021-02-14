@@ -31,7 +31,7 @@ class _MainPageState extends State<MainPage> {
                 child: DashboardPage(),
               ),
               Center(
-                child: Text("Tambah"),
+                child: AddAssetPage(),
               ),
               Center(
                 child: Text("Scan"),
@@ -48,7 +48,7 @@ class _MainPageState extends State<MainPage> {
                   });
                   pageController.jumpToPage(selectedPage);
                 },
-              ))
+              )),
         ],
       ),
     );

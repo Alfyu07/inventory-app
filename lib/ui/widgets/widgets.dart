@@ -5,4 +5,5 @@ import 'package:inventory_app/shared/shared.dart';
 import 'package:inventory_app/models/models.dart';
 part 'custom_bottom_navbar.dart';
 part 'overview_card.dart';
-part 'custom_item_card.dart';
+part 'asset_list_item.dart';
+part 'asset_condition_indicator.dart';
