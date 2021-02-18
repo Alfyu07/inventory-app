@@ -135,7 +135,18 @@ class _AddAssetPageState extends State<AddAssetPage> {
                 height: 45,
                 margin: EdgeInsets.only(top: 20),
                 child: RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(
+                      IllustrationPage(
+                          title: 'Request Berhasil!',
+                          subtitle: 'Barang berhasil ditambahkan',
+                          buttonTap1: () {
+                            Get.to(MainPage());
+                          },
+                          buttonTitle1: 'Back to Home',
+                          picturePath: 'assets/done.png'),
+                    );
+                  },
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -185,14 +196,14 @@ class _AddAssetPageState extends State<AddAssetPage> {
                 ),
               )
               .toList(),
-          hint: Text('Masukkan kondisi', style: greyHintStyle),
+          hint: Text('Masukkan kondisi', style: greyFontStyle),
         ),
       ),
     );
   }
 
   Container buildTextField(
-      {controller, hint, height = 40.0, maxLines = 1, contentPadding = null}) {
+      {controller, hint, height = 40.0, maxLines = 1, contentPadding}) {
     return Container(
       margin: EdgeInsets.fromLTRB(0, 5, 0, 10),
       padding: EdgeInsets.symmetric(horizontal: 10),
@@ -207,7 +218,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
         controller: controller,
         decoration: InputDecoration(
             border: InputBorder.none,
-            hintStyle: greyHintStyle,
+            hintStyle: greyFontStyle,
             hintText: hint,
             contentPadding: contentPadding),
       ),

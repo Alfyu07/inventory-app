@@ -16,7 +16,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
           width: double.infinity,
           child: SafeArea(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Container(
                   width: double.infinity,
@@ -27,24 +27,24 @@ class _ScanQRPageState extends State<ScanQRPage> {
                     style: titleFontStyle0,
                   ),
                 ),
-                Container(
-                  width: double.infinity,
-                  height: size.height - size.height * 0.1,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        height: size.height * 0.6,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('assets/scan-illustrator.png'),
-                          ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 300,
+                      height: 300,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/scan-illustrator.png'),
                         ),
                       ),
-                      RaisedButton(
+                    ),
+                    Container(
+                      width: 200,
+                      height: 45,
+                      child: RaisedButton(
                         onPressed: () {},
-                        elevation: 2,
+                        elevation: 0,
                         padding: EdgeInsets.all(5),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -59,9 +59,9 @@ class _ScanQRPageState extends State<ScanQRPage> {
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                )
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

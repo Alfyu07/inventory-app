@@ -32,6 +32,5 @@ TextStyle blackFontStyle2 = GoogleFonts.poppins()
     .copyWith(color: blackColor, fontSize: 14, fontWeight: FontWeight.w400);
 
 TextStyle whiteLabelStyle = GoogleFonts.poppins(color: Colors.white);
-TextStyle greyLabelStyle = blackFontStyle2.copyWith(color: greyColor1);
 TextStyle whiteHintStyle = GoogleFonts.poppins(color: Colors.white54);
-TextStyle greyHintStyle = blackFontStyle2.copyWith(color: greyColor1);
+TextStyle greyFontStyle = GoogleFonts.poppins(fontSize: 14, color: greyColor1);

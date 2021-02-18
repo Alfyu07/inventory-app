@@ -186,8 +186,7 @@ class DetailPage extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(left: 0),
                               child: Text(
-                                //TODO: dinamis lokasi
-                                'Gudang',
+                                barang.location,
                                 style: blackFontStyle2.copyWith(
                                   fontWeight: FontWeight.bold,
                                   color: greyColor0,

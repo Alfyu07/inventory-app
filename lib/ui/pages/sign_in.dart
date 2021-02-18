@@ -147,7 +147,7 @@ class _SignInState extends State<SignIn> {
         controller: emailController,
         decoration: InputDecoration(
             border: InputBorder.none,
-            hintStyle: greyHintStyle.copyWith(fontSize: 16),
+            hintStyle: greyFontStyle.copyWith(fontSize: 16),
             hintText: 'Enter your email',
             contentPadding: EdgeInsets.only(bottom: 10)),
       ),
@@ -169,7 +169,7 @@ class _SignInState extends State<SignIn> {
         obscureText: true,
         decoration: InputDecoration(
             border: InputBorder.none,
-            hintStyle: greyHintStyle.copyWith(fontSize: 16),
+            hintStyle: greyFontStyle.copyWith(fontSize: 16),
             hintText: 'Enter your password',
             contentPadding: EdgeInsets.only(bottom: 10)),
       ),
