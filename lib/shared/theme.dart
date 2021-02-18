@@ -14,13 +14,24 @@ Color greyColor0 = "001B33".toColor().withOpacity(0.6);
 Color greyColor1 = "001B33".toColor().withOpacity(0.3);
 Color lightGreyColor = "EBECF1".toColor();
 
-TextStyle titleFontStyle0 = GoogleFonts.poppins()
-    .copyWith(color: blackColor, fontSize: 24, fontWeight: FontWeight.bold);
-TextStyle titleFontStyle1 = GoogleFonts.poppins()
-    .copyWith(color: blackColor, fontSize: 22, fontWeight: FontWeight.w700);
+TextStyle titleFontStyle0 = GoogleFonts.poppins().copyWith(
+    color: blackColor,
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    letterSpacing: -0.3);
+TextStyle titleFontStyle1 = GoogleFonts.poppins().copyWith(
+    color: blackColor,
+    fontSize: 22,
+    fontWeight: FontWeight.w700,
+    letterSpacing: -0.3);
 TextStyle blackFontStyle0 = GoogleFonts.poppins()
     .copyWith(color: blackColor, fontSize: 18, fontWeight: FontWeight.w400);
 TextStyle blackFontStyle1 = GoogleFonts.poppins()
     .copyWith(color: blackColor, fontSize: 16, fontWeight: FontWeight.w400);
 TextStyle blackFontStyle2 = GoogleFonts.poppins()
     .copyWith(color: blackColor, fontSize: 14, fontWeight: FontWeight.w400);
+
+TextStyle whiteLabelStyle = GoogleFonts.poppins(color: Colors.white);
+TextStyle greyLabelStyle = blackFontStyle2.copyWith(color: greyColor1);
+TextStyle whiteHintStyle = GoogleFonts.poppins(color: Colors.white54);
+TextStyle greyHintStyle = blackFontStyle2.copyWith(color: greyColor1);

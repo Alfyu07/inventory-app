@@ -134,25 +134,32 @@ class _DashboardPageState extends State<DashboardPage> {
         ),
         Container(
           //TODO:tambahkan animasi untuk ux scrolling
-          height: size.height * 0.4,
+          height: size.height * 0.5 - 20,
           color: kBackgroundColor,
           child: ListView(
               physics: BouncingScrollPhysics(),
               children: mockBarang
-                  .map((barang) => Container(
-                        margin: EdgeInsets.only(top: 10),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: defaultMargin),
-                        child: AssetListItem(
-                          itemWidth: assetListWidth,
-                          barang: barang,
+                  .map((barang) => GestureDetector(
+                        onTap: () {
+                          Get.to(DetailPage(
+                            barang: barang,
+                            // onBackButtonPressed: () {
+                            //   Get.back();
+                            // },
+                          ));
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(top: 10),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: defaultMargin),
+                          child: AssetListItem(
+                            itemWidth: assetListWidth,
+                            barang: barang,
+                          ),
                         ),
                       ))
                   .toList()),
         ),
-        SizedBox(
-          height: 60,
-        )
       ],
     );
   }

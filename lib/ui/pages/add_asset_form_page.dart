@@ -185,8 +185,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
                 ),
               )
               .toList(),
-          hint: Text('Masukkan kondisi',
-              style: blackFontStyle2.copyWith(color: greyColor1)),
+          hint: Text('Masukkan kondisi', style: greyHintStyle),
         ),
       ),
     );
@@ -208,7 +207,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
         controller: controller,
         decoration: InputDecoration(
             border: InputBorder.none,
-            hintStyle: blackFontStyle2.copyWith(color: greyColor1),
+            hintStyle: greyHintStyle,
             hintText: hint,
             contentPadding: contentPadding),
       ),

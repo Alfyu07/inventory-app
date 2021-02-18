@@ -34,7 +34,7 @@ class _MainPageState extends State<MainPage> {
                 child: AddAssetPage(),
               ),
               Center(
-                child: Text("Scan"),
+                child: ScanQRPage(),
               )
             ],
           )),
