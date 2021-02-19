@@ -10,7 +10,7 @@ import 'package:supercharged/supercharged.dart';
 
 part 'general_page.dart';
 part 'sign_in_page.dart';
-part 'sign_in.dart';
+part 'login_page.dart';
 
 part 'main_page.dart';
 part 'add_asset_form_page.dart';
@@ -18,3 +18,5 @@ part 'dashboard_page.dart';
 part 'scan_qr_page.dart';
 part 'detail_page.dart';
 part 'illustration_page.dart';
+part 'success_order.dart';
+part 'edit_item.dart';

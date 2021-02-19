@@ -68,6 +68,7 @@ class DetailPage extends StatelessWidget {
                         style: titleFontStyle0.copyWith(fontSize: 20)),
                     SizedBox(height: 10),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         //desc 1
                         Column(

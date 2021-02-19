@@ -136,16 +136,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
                 margin: EdgeInsets.only(top: 20),
                 child: RaisedButton(
                   onPressed: () {
-                    Get.to(
-                      IllustrationPage(
-                          title: 'Request Berhasil!',
-                          subtitle: 'Barang berhasil ditambahkan',
-                          buttonTap1: () {
-                            Get.to(MainPage());
-                          },
-                          buttonTitle1: 'Back to Home',
-                          picturePath: 'assets/done.png'),
-                    );
+                    Get.to(SuccessOrderPage());
                   },
                   elevation: 0,
                   shape: RoundedRectangleBorder(
