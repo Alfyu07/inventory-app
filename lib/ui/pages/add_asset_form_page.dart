@@ -15,6 +15,8 @@ class _AddAssetPageState extends State<AddAssetPage> {
   TextEditingController keteranganController = TextEditingController();
   String _kondisiBarang;
   DateTime selectedDate = DateTime.now();
+  File _imageFile;
+
   var kondisi = ['Bagus', 'Rusak'];
 
   @override
@@ -33,35 +35,75 @@ class _AddAssetPageState extends State<AddAssetPage> {
             ),
           ),
         ),
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            Container(
-              margin:
-                  EdgeInsets.symmetric(vertical: 10, horizontal: defaultMargin),
-              width: double.infinity,
-              height: 200,
-              decoration: BoxDecoration(
-                  color: lightGreyColor,
-                  borderRadius: BorderRadius.circular(8)),
-            ),
-            GestureDetector(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) => _buildPopupDialog(context),
-                );
-              },
-              child: Container(
-                width: 60,
-                height: 60,
-                child: Stack(
-                  children: [SvgPicture.asset('assets/photo.svg')],
-                ),
+        _imageFile == null
+            ? Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                        vertical: 10, horizontal: defaultMargin),
+                    width: double.infinity,
+                    height: 200,
+                    decoration: BoxDecoration(
+                        color: lightGreyColor,
+                        borderRadius: BorderRadius.circular(8)),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) =>
+                            _buildPopupDialog(context),
+                      );
+                    },
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      child: Stack(
+                        children: [SvgPicture.asset('assets/photo.svg')],
+                      ),
+                    ),
+                  )
+                ],
+              )
+            : Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                        vertical: 10, horizontal: defaultMargin),
+                    width: double.infinity,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      color: lightGreyColor,
+                      borderRadius: BorderRadius.circular(8),
+                      image: DecorationImage(
+                        image: FileImage(_imageFile),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      _clear();
+                    },
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.black12,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Stack(
+                        children: [
+                          SvgPicture.asset('assets/clear.svg',
+                              color: Colors.white, width: 40),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
               ),
-            )
-          ],
-        ),
         Container(
           margin: EdgeInsets.symmetric(
               horizontal: defaultMargin, vertical: defaultMargin),
@@ -161,6 +203,50 @@ class _AddAssetPageState extends State<AddAssetPage> {
     );
   }
 
+  Future<void> _cropImage() async {
+    File cropped = await ImageCropper.cropImage(
+        sourcePath: _imageFile.path,
+        // ratioX: 1.0,
+        // ratioY: 1.0,
+        // maxWidth: 512,
+        // maxHeight: 512,
+        aspectRatioPresets: Platform.isAndroid
+            ? [
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio16x9
+              ]
+            : [
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio5x3,
+                CropAspectRatioPreset.ratio5x4,
+                CropAspectRatioPreset.ratio7x5,
+                CropAspectRatioPreset.ratio16x9
+              ],
+        androidUiSettings: AndroidUiSettings(
+            toolbarColor: mainColor0,
+            toolbarWidgetColor: Colors.white,
+            toolbarTitle: 'Crop It'));
+
+    setState(() {
+      _imageFile = cropped ?? _imageFile;
+    });
+  }
+
+  Future<File> _pickImage(ImageSource source) async {
+    File selected = await ImagePicker.pickImage(source: source);
+    return selected;
+  }
+
+  void _clear() {
+    setState(() => _imageFile = null);
+  }
+
   Container buildDropdownForm({List<String> values, width = double.infinity}) {
     return Container(
       margin: EdgeInsets.fromLTRB(0, 5, 2.5, 10),
@@ -229,7 +315,12 @@ class _AddAssetPageState extends State<AddAssetPage> {
           children: <Widget>[
             //TODO:tambahkan aksi untuk membuka gallery atau camera
             GestureDetector(
-              onTap: () {},
+              onTap: () async {
+                if (_imageFile == null) {
+                  _imageFile = await _pickImage(ImageSource.gallery);
+                  await _cropImage();
+                }
+              },
               child: Container(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -251,7 +342,12 @@ class _AddAssetPageState extends State<AddAssetPage> {
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () async {
+                if (_imageFile == null) {
+                  _imageFile = await _pickImage(ImageSource.camera);
+                  await _cropImage();
+                }
+              },
               child: Container(
                 margin: EdgeInsets.only(top: 16),
                 child: Row(

@@ -6,6 +6,7 @@ class ScanQRPage extends StatefulWidget {
 }
 
 class _ScanQRPageState extends State<ScanQRPage> {
+  String result;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -42,7 +43,11 @@ class _ScanQRPageState extends State<ScanQRPage> {
                     width: 200,
                     height: 45,
                     child: RaisedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        if (result == null) {
+                          scanQRcode();
+                        }
+                      },
                       elevation: 0,
                       padding: EdgeInsets.all(5),
                       shape: RoundedRectangleBorder(
@@ -59,6 +64,9 @@ class _ScanQRPageState extends State<ScanQRPage> {
                       ),
                     ),
                   ),
+                  result != null
+                      ? Text(result, style: titleFontStyle0)
+                      : SizedBox()
                 ],
               ),
             ],
@@ -66,5 +74,13 @@ class _ScanQRPageState extends State<ScanQRPage> {
         ),
       ],
     );
+  }
+
+  Future<void> scanQRcode() async {
+    try {
+      result = await scanner.scan();
+    } on PlatformException {
+      print('failed to get platform version');
+    }
   }
 }

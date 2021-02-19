@@ -8,6 +8,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -82,7 +84,12 @@ class _LoginPageState extends State<LoginPage> {
                             SizedBox(height: 20),
 
                             //Button
-                            buildLoginBtn()
+                            isLoading
+                                ? SpinKitFadingCircle(
+                                    size: 45,
+                                    color: mainColor0,
+                                  )
+                                : buildLoginBtn()
                           ],
                         )),
                   ))
