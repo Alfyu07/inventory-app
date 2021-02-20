@@ -22,8 +22,7 @@ class _DashboardPageState extends State<DashboardPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Dashboard',
-                    style: titleFontStyle0.copyWith(letterSpacing: -0.3)),
+                Text('Dashboard', style: titleFontStyle0),
                 Row(
                   children: [
                     GestureDetector(
@@ -78,7 +77,7 @@ class _DashboardPageState extends State<DashboardPage> {
             children: [
               Text(
                 'Daftar Barang',
-                style: titleFontStyle1.copyWith(letterSpacing: -0.3),
+                style: titleFontStyle1,
               ),
               DropdownButton<String>(
                 items: <DropdownMenuItem<String>>[
@@ -128,7 +127,6 @@ class _DashboardPageState extends State<DashboardPage> {
                   });
                 },
               ),
-              //TODO:Tambahin button buat ngurutin
             ],
           ),
         ),

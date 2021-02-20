@@ -78,7 +78,11 @@ class _ScanQRPageState extends State<ScanQRPage> {
 
   Future<void> scanQRcode() async {
     try {
-      result = await scanner.scan();
+      await Permission.camera.request();
+      String qr_result = await scanner.scan();
+      setState(() {
+        result = qr_result;
+      });
     } on PlatformException {
       print('failed to get platform version');
     }

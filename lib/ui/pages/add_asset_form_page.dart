@@ -6,8 +6,6 @@ class AddAssetPage extends StatefulWidget {
 }
 
 class _AddAssetPageState extends State<AddAssetPage> {
-  //TODO: tambahkan fila untuk gambar
-
   //TODO: state management
   TextEditingController nameController = TextEditingController();
   TextEditingController hargaController = TextEditingController();
@@ -206,10 +204,6 @@ class _AddAssetPageState extends State<AddAssetPage> {
   Future<void> _cropImage() async {
     File cropped = await ImageCropper.cropImage(
         sourcePath: _imageFile.path,
-        // ratioX: 1.0,
-        // ratioY: 1.0,
-        // maxWidth: 512,
-        // maxHeight: 512,
         aspectRatioPresets: Platform.isAndroid
             ? [
                 CropAspectRatioPreset.square,
@@ -385,14 +379,61 @@ class _AddAssetPageState extends State<AddAssetPage> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
+    final ThemeData theme = Theme.of(context);
+    assert(theme.platform != null);
+    switch (theme.platform) {
+      case TargetPlatform.android:
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
+        return buildMaterialDatePicker(context);
+      case TargetPlatform.iOS:
+      case TargetPlatform.macOS:
+        return buildCupertinoDatePicker(context);
+    }
+  }
+
+  buildMaterialDatePicker(BuildContext context) async {
     final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+      builder: (context, child) {
+        return FittedBox(
+          child: Theme(
+            data: ThemeData.light(),
+            child: child,
+          ),
+        );
+      },
+    );
     if (picked != null && picked != selectedDate)
       setState(() {
         selectedDate = picked;
       });
+  }
+
+  buildCupertinoDatePicker(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext builder) {
+          return Container(
+            height: MediaQuery.of(context).copyWith().size.height / 3,
+            color: Colors.white,
+            child: CupertinoDatePicker(
+              mode: CupertinoDatePickerMode.date,
+              onDateTimeChanged: (picked) {
+                if (picked != null && picked != selectedDate)
+                  setState(() {
+                    selectedDate = picked;
+                  });
+              },
+              initialDateTime: selectedDate,
+              minimumYear: 2000,
+              maximumYear: 2100,
+            ),
+          );
+        });
   }
 }

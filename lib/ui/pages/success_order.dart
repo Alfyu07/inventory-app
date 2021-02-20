@@ -12,7 +12,7 @@ class SuccessOrderPage extends StatelessWidget {
         buttonTitle1: 'Lihat detail barang',
         picturePath: 'assets/done.png',
         buttonTap2: () {
-          Get.to(MainPage());
+          Get.offAll(MainPage());
         },
         buttonTitle2: 'Kembali ke home',
       ),
