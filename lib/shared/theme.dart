@@ -32,5 +32,12 @@ TextStyle blackFontStyle2 = GoogleFonts.poppins()
     .copyWith(color: blackColor, fontSize: 14, fontWeight: FontWeight.w400);
 
 TextStyle whiteLabelStyle = GoogleFonts.poppins(color: Colors.white);
+
 TextStyle whiteHintStyle = GoogleFonts.poppins(color: Colors.white54);
+
 TextStyle greyFontStyle = GoogleFonts.poppins(fontSize: 14, color: greyColor1);
+
+Widget loadingIndicator = SpinKitFadingCircle(
+  size: 45,
+  color: mainColor0,
+);

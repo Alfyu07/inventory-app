@@ -1,30 +1,67 @@
 part of 'models.dart';
 
-class Barang {
+class Asset extends Equatable {
   final int id;
-  final String picturePath;
   final String name;
+  final String picturePath;
   final String description;
   final String condition;
-  final String price;
+  final int price;
   final DateTime tanggalDibeli;
   final String qrCode;
   final String location;
 
-  Barang(
+  Asset(
       {this.id,
-      this.picturePath,
       this.name,
+      this.picturePath,
       this.description,
       this.condition,
       this.price,
       this.tanggalDibeli,
       this.qrCode,
       this.location});
+
+  Asset copyWith(
+      {int id,
+      String name,
+      String picturePath,
+      String description,
+      String condition,
+      int price,
+      DateTime tanggalDibeli,
+      String qrCode,
+      String location}) {
+    return Asset(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      picturePath: picturePath ?? this.picturePath,
+      description: description ?? this.description,
+      condition: condition ?? this.condition,
+      price: price ?? this.price,
+      tanggalDibeli: tanggalDibeli ?? this.tanggalDibeli,
+      qrCode: qrCode ?? this.qrCode,
+      location: location ?? this.location,
+    );
+  }
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [
+        id,
+        name,
+        picturePath,
+        description,
+        condition,
+        price,
+        tanggalDibeli,
+        qrCode,
+        location
+      ];
 }
 
-List<Barang> mockBarang = [
-  Barang(
+List<Asset> mockAssets = [
+  Asset(
     id: 1,
     picturePath:
         'https://images.unsplash.com/photo-1561948955-570b270e7c36?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=259&q=80',
@@ -33,10 +70,10 @@ List<Barang> mockBarang = [
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
     condition: 'bagus',
     tanggalDibeli: DateTime.now(),
-    price: '2.000.000',
+    price: 2000000,
     location: 'Gudang',
   ),
-  Barang(
+  Asset(
     id: 2,
     picturePath:
         'https://images.unsplash.com/photo-1561948955-570b270e7c36?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=259&q=80',
@@ -45,10 +82,10 @@ List<Barang> mockBarang = [
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
     condition: 'bagus',
     tanggalDibeli: DateTime.now(),
-    price: '2.000.000',
+    price: 2000000,
     location: 'Gudang',
   ),
-  Barang(
+  Asset(
       id: 3,
       picturePath:
           'https://images.unsplash.com/photo-1561948955-570b270e7c36?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=259&q=80',
@@ -56,10 +93,10 @@ List<Barang> mockBarang = [
       description:
           'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
       condition: 'bagus',
-      price: '2.000.000',
+      price: 2000000,
       tanggalDibeli: DateTime.now(),
       location: 'Gudang'),
-  Barang(
+  Asset(
     id: 4,
     picturePath:
         'https://images.unsplash.com/photo-1561948955-570b270e7c36?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=259&q=80',
@@ -68,10 +105,10 @@ List<Barang> mockBarang = [
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
     condition: 'rusak',
     tanggalDibeli: DateTime.now(),
-    price: '2.000.000',
+    price: 2000000,
     location: 'Gudang',
   ),
-  Barang(
+  Asset(
     id: 5,
     picturePath:
         'https://images.unsplash.com/photo-1561948955-570b270e7c36?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=259&q=80',
@@ -80,10 +117,10 @@ List<Barang> mockBarang = [
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
     condition: 'rusak',
     tanggalDibeli: DateTime.now(),
-    price: '2.000.000',
+    price: 2000000,
     location: 'Gudang',
   ),
-  Barang(
+  Asset(
     id: 6,
     picturePath:
         'https://images.unsplash.com/photo-1561948955-570b270e7c36?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=259&q=80',
@@ -92,10 +129,10 @@ List<Barang> mockBarang = [
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
     condition: 'rusak',
     tanggalDibeli: DateTime.now(),
-    price: '2.000.000',
+    price: 2000000,
     location: 'Gudang',
   ),
-  Barang(
+  Asset(
     id: 7,
     picturePath:
         'https://images.unsplash.com/photo-1561948955-570b270e7c36?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=259&q=80',
@@ -104,10 +141,10 @@ List<Barang> mockBarang = [
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
     condition: 'bagus',
     tanggalDibeli: DateTime.now(),
-    price: '2.000.000',
+    price: 2000000,
     location: 'Gudang',
   ),
-  Barang(
+  Asset(
     id: 8,
     picturePath:
         'https://images.unsplash.com/photo-1561948955-570b270e7c36?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=259&q=80',
@@ -116,10 +153,10 @@ List<Barang> mockBarang = [
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
     condition: 'bagus',
     tanggalDibeli: DateTime.now(),
-    price: '2.000.000',
+    price: 2000000,
     location: 'Kantor',
   ),
-  Barang(
+  Asset(
     id: 9,
     picturePath:
         'https://images.unsplash.com/photo-1561948955-570b270e7c36?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=259&q=80',
@@ -128,10 +165,10 @@ List<Barang> mockBarang = [
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
     condition: 'bagus',
     tanggalDibeli: DateTime.now(),
-    price: '2.000.000',
+    price: 2000000,
     location: 'Gudang',
   ),
-  Barang(
+  Asset(
     id: 10,
     picturePath:
         'https://images.unsplash.com/photo-1561948955-570b270e7c36?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=259&q=80',
@@ -140,7 +177,7 @@ List<Barang> mockBarang = [
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
     condition: 'bagus',
     tanggalDibeli: DateTime.now(),
-    price: '2.000.000',
+    price: 2000000,
     location: 'Gudang',
   ),
 ];

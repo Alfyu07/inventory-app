@@ -1,9 +1,9 @@
 part of 'pages.dart';
 
 class DetailPage extends StatelessWidget {
-  final Barang barang;
+  final Asset asset;
 
-  const DetailPage({Key key, this.barang}) : super(key: key);
+  const DetailPage({Key key, this.asset}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class DetailPage extends StatelessWidget {
       child: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            title: Text('Detail Barang'),
+            title: Text('Detail asset'),
             backgroundColor: mainColor0,
             expandedHeight: 300.0,
             actions: [
@@ -29,7 +29,7 @@ class DetailPage extends StatelessWidget {
                   ))
             ],
             flexibleSpace:
-                FlexibleSpaceBar(background: Image.network(barang.picturePath)),
+                FlexibleSpaceBar(background: Image.network(asset.picturePath)),
           ),
           (SliverFixedExtentList(
             itemExtent: size.height * 0.75,
@@ -53,18 +53,18 @@ class DetailPage extends StatelessWidget {
                         SizedBox(
                           width: size.width, // 32 + 102
                           child: Text(
-                            barang.name,
+                            asset.name,
                             style: titleFontStyle1,
                           ),
                         ),
                         SizedBox(
                           height: 5,
                         ),
-                        AssetConditionIndicator(barang: barang),
+                        AssetConditionIndicator(asset: asset),
                         SizedBox(height: 20)
                       ],
                     ),
-                    Text('Deskripsi Barang',
+                    Text('Deskripsi asset',
                         style: titleFontStyle0.copyWith(fontSize: 20)),
                     SizedBox(height: 10),
                     Row(
@@ -100,7 +100,7 @@ class DetailPage extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.only(left: 3),
                                       child: Text(
-                                        '${DateFormat("dd-MM-yyyy").format(barang.tanggalDibeli)}',
+                                        '${DateFormat("dd-MM-yyyy").format(asset.tanggalDibeli)}',
                                         style: blackFontStyle2.copyWith(
                                           fontWeight: FontWeight.bold,
                                           color: greyColor0,
@@ -143,7 +143,11 @@ class DetailPage extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.only(left: 1),
                                       child: Text(
-                                        'Rp. ' + barang.price,
+                                        NumberFormat.currency(
+                                                locale: 'id-ID',
+                                                symbol: 'IDR ',
+                                                decimalDigits: 0)
+                                            .format(asset.price),
                                         style: blackFontStyle2.copyWith(
                                           fontWeight: FontWeight.bold,
                                           color: greyColor0,
@@ -176,7 +180,7 @@ class DetailPage extends StatelessWidget {
                             SizedBox(
                               width: 130,
                               child: Text(
-                                'Lokasi Barang',
+                                'Lokasi asset',
                                 style: blackFontStyle1.copyWith(
                                   fontWeight: FontWeight.bold,
                                   color: greyColor0,
@@ -187,7 +191,7 @@ class DetailPage extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(left: 0),
                               child: Text(
-                                barang.location,
+                                asset.location,
                                 style: blackFontStyle2.copyWith(
                                   fontWeight: FontWeight.bold,
                                   color: greyColor0,
@@ -203,7 +207,7 @@ class DetailPage extends StatelessWidget {
                         style: titleFontStyle0.copyWith(fontSize: 20)),
                     SizedBox(height: 10),
                     Text(
-                      barang.description,
+                      asset.description,
                       style: blackFontStyle2.copyWith(
                         fontWeight: FontWeight.bold,
                         color: greyColor0,
@@ -221,7 +225,9 @@ class DetailPage extends StatelessWidget {
                             ),
                           ),
                           GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Get.to(EditAssetPage(asset: asset));
+                              },
                               child: Container(
                                   alignment: Alignment.center,
                                   width: 120,

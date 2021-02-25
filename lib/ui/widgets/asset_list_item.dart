@@ -1,10 +1,10 @@
 part of 'widgets.dart';
 
 class AssetListItem extends StatelessWidget {
-  final Barang barang;
+  final Asset asset;
   final double itemWidth;
 
-  const AssetListItem({Key key, this.barang, this.itemWidth}) : super(key: key);
+  const AssetListItem({Key key, this.asset, this.itemWidth}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class AssetListItem extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             image: DecorationImage(
-                image: NetworkImage(barang.picturePath), fit: BoxFit.cover),
+                image: NetworkImage(asset.picturePath), fit: BoxFit.cover),
           ),
         ),
         SizedBox(
@@ -29,12 +29,12 @@ class AssetListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    barang.name,
+                    asset.name,
                     style: blackFontStyle0,
                     maxLines: 1,
                     overflow: TextOverflow.clip,
                   ),
-                  AssetConditionIndicator(barang: barang)
+                  AssetConditionIndicator(asset: asset)
                 ],
               ),
             ],

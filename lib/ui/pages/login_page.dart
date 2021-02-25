@@ -102,25 +102,59 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       width: double.infinity,
       height: 50,
-      child: RaisedButton(
-        onPressed: () {
-          Get.off(MainPage());
-        },
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        color: mainColor0,
-        child: Text(
-          'Sign In',
-          style: GoogleFonts.poppins(
-            fontSize: 20,
-            color: Colors.white,
-            letterSpacing: 1.5,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
+      child: isLoading
+          ? loadingIndicator
+          : RaisedButton(
+              onPressed: () async {
+                setState(() {
+                  isLoading = true;
+                });
+
+                await context
+                    .read<UserCubit>()
+                    .signIn(emailController.text, passwordController.text);
+
+                UserState state = context.read<UserCubit>().state;
+
+                if (state is UserLoaded) {
+                  context.read<AssetCubit>().getAssets();
+                  Get.to(MainPage());
+                } else {
+                  Get.snackbar(
+                    "",
+                    "",
+                    backgroundColor: 'D9435E'.toColor(),
+                    icon: Icon(Icons.close_outlined, color: Colors.white),
+                    titleText: Text(
+                      'Sign In Failed',
+                      style: GoogleFonts.poppins(
+                          color: Colors.white, fontWeight: FontWeight.w600),
+                    ),
+                    messageText: Text(
+                      (state as UserLoadingFailed).message,
+                      style: GoogleFonts.poppins(color: Colors.white),
+                    ),
+                  );
+                  setState(() {
+                    isLoading = false;
+                  });
+                }
+              },
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              color: mainColor0,
+              child: Text(
+                'Sign In',
+                style: GoogleFonts.poppins(
+                  fontSize: 20,
+                  color: Colors.white,
+                  letterSpacing: 1.5,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
     );
   }
 

@@ -1,17 +1,20 @@
 part of 'pages.dart';
 
-class AddAssetPage extends StatefulWidget {
+class EditAssetPage extends StatefulWidget {
+  Asset asset;
+
+  EditAssetPage({this.asset});
   @override
-  _AddAssetPageState createState() => _AddAssetPageState();
+  _EditAssetPageState createState() => _EditAssetPageState();
 }
 
-class _AddAssetPageState extends State<AddAssetPage> {
-  //TODO: state management
+class _EditAssetPageState extends State<EditAssetPage> {
+  //TODO: Ambil data untuk di edit, belum jadi
   TextEditingController nameController = TextEditingController();
   TextEditingController hargaController = TextEditingController();
-  TextEditingController simpanController = TextEditingController();
+  TextEditingController lokasiController = TextEditingController();
   TextEditingController keteranganController = TextEditingController();
-  String _kondisiBarang;
+  String _kondisiAsset;
   DateTime selectedDate = DateTime.now();
   File _imageFile;
 
@@ -20,184 +23,186 @@ class _AddAssetPageState extends State<AddAssetPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return ListView(
-      children: [
-        SafeArea(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-            alignment: Alignment.centerLeft,
-            height: size.height * 0.1,
-            child: Text(
-              'Tambah Barang',
-              style: titleFontStyle0,
+    return Scaffold(
+      body: ListView(
+        children: [
+          SafeArea(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+              alignment: Alignment.centerLeft,
+              height: size.height * 0.1,
+              child: Text(
+                'Edit asset',
+                style: titleFontStyle0,
+              ),
             ),
           ),
-        ),
-        _imageFile == null
-            ? Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                        vertical: 10, horizontal: defaultMargin),
-                    width: double.infinity,
-                    height: 200,
-                    decoration: BoxDecoration(
-                        color: lightGreyColor,
-                        borderRadius: BorderRadius.circular(8)),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) =>
-                            _buildPopupDialog(context),
-                      );
-                    },
-                    child: Container(
-                      width: 60,
-                      height: 60,
-                      child: Stack(
-                        children: [SvgPicture.asset('assets/photo.svg')],
-                      ),
-                    ),
-                  )
-                ],
-              )
-            : Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                        vertical: 10, horizontal: defaultMargin),
-                    width: double.infinity,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      color: lightGreyColor,
-                      borderRadius: BorderRadius.circular(8),
-                      image: DecorationImage(
-                        image: FileImage(_imageFile),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      _clear();
-                    },
-                    child: Container(
-                      width: 60,
-                      height: 60,
-                      alignment: Alignment.center,
+          _imageFile == null
+              ? Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                          vertical: 10, horizontal: defaultMargin),
+                      width: double.infinity,
+                      height: 200,
                       decoration: BoxDecoration(
-                        color: Colors.black12,
-                        shape: BoxShape.circle,
+                          color: lightGreyColor,
+                          borderRadius: BorderRadius.circular(8)),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              _buildPopupDialog(context),
+                        );
+                      },
+                      child: Container(
+                        width: 60,
+                        height: 60,
+                        child: Stack(
+                          children: [SvgPicture.asset('assets/photo.svg')],
+                        ),
                       ),
-                      child: Stack(
-                        children: [
-                          SvgPicture.asset('assets/clear.svg',
-                              color: Colors.white, width: 40),
-                        ],
+                    )
+                  ],
+                )
+              : Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                          vertical: 10, horizontal: defaultMargin),
+                      width: double.infinity,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        color: lightGreyColor,
+                        borderRadius: BorderRadius.circular(8),
+                        image: DecorationImage(
+                          image: FileImage(_imageFile),
+                        ),
                       ),
                     ),
-                  )
-                ],
-              ),
-        Container(
-          margin: EdgeInsets.symmetric(
-              horizontal: defaultMargin, vertical: defaultMargin),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //Input nama barang
-              Text('Nama barang', style: blackFontStyle0),
-              buildTextField(
-                  controller: nameController,
-                  hint: 'Masukkan nama barang',
-                  contentPadding: EdgeInsets.only(bottom: 10.0)),
-
-              //Harga Pembelian
-              Text('Harga barang', style: blackFontStyle0),
-              buildTextField(
-                controller: hargaController,
-                hint: 'Masukkan harga barang',
-                contentPadding: EdgeInsets.only(bottom: 10.0),
-              ),
-
-              //Input Lokasi
-              Text('Lokasi', style: blackFontStyle0),
-              buildTextField(
-                controller: simpanController,
-                hint: 'Masukkan lokasi barang disimpan',
-                contentPadding: EdgeInsets.only(bottom: 10.0),
-              ),
-              //Input kondisi
-              Text('Kondisi', style: blackFontStyle0),
-              buildDropdownForm(values: kondisi),
-
-              //Input tanggal pembelian
-              Text('Tanggal pembelian', style: blackFontStyle0),
-              Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.fromLTRB(0, 5, 5, 10),
-                padding: EdgeInsets.only(left: 10),
-                width: size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border.all(width: 1, color: greyColor1),
+                    GestureDetector(
+                      onTap: () {
+                        _clear();
+                      },
+                      child: Container(
+                        width: 60,
+                        height: 60,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.black12,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Stack(
+                          children: [
+                            SvgPicture.asset('assets/clear.svg',
+                                color: Colors.white, width: 40),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('${DateFormat("dd-MM-yyyy").format(selectedDate)}',
-                          style: blackFontStyle1),
-                      GestureDetector(
-                        onTap: () => _selectDate(context),
-                        child: Container(
-                            height: 40,
-                            width: 40,
-                            color: greyColor1,
-                            child: Icon(Icons.calendar_today,
-                                color: Colors.white)),
-                      )
-                    ]),
-              ),
+          Container(
+            margin: EdgeInsets.symmetric(
+                horizontal: defaultMargin, vertical: defaultMargin),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //Input nama asset
+                Text('Nama asset', style: blackFontStyle0),
+                buildTextField(
+                    controller: nameController,
+                    hint: 'Masukkan nama asset',
+                    contentPadding: EdgeInsets.only(bottom: 10.0)),
 
-              //Input keterangan
-              Text('Keterangan', style: blackFontStyle0),
-              buildTextField(
-                controller: keteranganController,
-                hint: 'Masukkan Keterangan',
-                maxLines: null,
-                height: 80.0,
-              ),
-              Container(
-                width: double.infinity,
-                height: 45,
-                margin: EdgeInsets.only(top: 20),
-                child: RaisedButton(
-                  onPressed: () {
-                    Get.to(SuccessOrderPage());
-                  },
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                //Harga Pembelian
+                Text('Harga asset', style: blackFontStyle0),
+                buildTextField(
+                  controller: hargaController,
+                  hint: 'Masukkan harga asset',
+                  contentPadding: EdgeInsets.only(bottom: 10.0),
+                ),
+
+                //Input Lokasi
+                Text('Lokasi', style: blackFontStyle0),
+                buildTextField(
+                  controller: lokasiController,
+                  hint: 'Masukkan lokasi asset disimpan',
+                  contentPadding: EdgeInsets.only(bottom: 10.0),
+                ),
+                //Input kondisi
+                Text('Kondisi', style: blackFontStyle0),
+                buildDropdownForm(values: kondisi),
+
+                //Input tanggal pembelian
+                Text('Tanggal pembelian', style: blackFontStyle0),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.fromLTRB(0, 5, 5, 10),
+                  padding: EdgeInsets.only(left: 10),
+                  width: size.width,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: greyColor1),
                   ),
-                  color: mainColor0,
-                  child: Text(
-                    'Tambahkan',
-                    style: GoogleFonts.poppins(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('${DateFormat("dd-MM-yyyy").format(selectedDate)}',
+                            style: blackFontStyle1),
+                        GestureDetector(
+                          onTap: () => _selectDate(context),
+                          child: Container(
+                              height: 40,
+                              width: 40,
+                              color: greyColor1,
+                              child: Icon(Icons.calendar_today,
+                                  color: Colors.white)),
+                        )
+                      ]),
+                ),
+
+                //Input keterangan
+                Text('Keterangan', style: blackFontStyle0),
+                buildTextField(
+                  controller: keteranganController,
+                  hint: 'Masukkan Keterangan',
+                  maxLines: null,
+                  height: 80.0,
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 45,
+                  margin: EdgeInsets.only(top: 20),
+                  child: RaisedButton(
+                    onPressed: () {
+                      Get.to(SuccessOrderPage());
+                    },
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    color: mainColor0,
+                    child: Text(
+                      'Tambahkan',
+                      style: GoogleFonts.poppins(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
-        ),
-        SizedBox(height: 80)
-      ],
+          SizedBox(height: 80)
+        ],
+      ),
     );
   }
 
@@ -252,11 +257,11 @@ class _AddAssetPageState extends State<AddAssetPage> {
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
-          value: _kondisiBarang,
+          value: _kondisiAsset,
           isDense: true,
           onChanged: (value) {
             setState(() {
-              _kondisiBarang = value;
+              _kondisiAsset = value;
             });
           },
           items: values
