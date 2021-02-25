@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:inventory_app/models/models.dart';
 import 'package:inventory_app/services/services.dart';
-
 part 'asset_state.dart';
 
 class AssetCubit extends Cubit<AssetState> {
@@ -18,5 +17,14 @@ class AssetCubit extends Cubit<AssetState> {
     }
   }
 
-  Future<void> sortAssets() async {}
+  //TODO: Filter API
+  Future<void> sortAssets(value) async {
+    ApiReturnValue<List<Asset>> result = await AssetServices.sortAssets(value);
+
+    if (result.value != null) {
+      emit(AssetLoaded(result.value));
+    } else {
+      emit(AssetLoadingFailed(result.message));
+    }
+  }
 }

@@ -27,8 +27,14 @@ class _DashboardPageState extends State<DashboardPage> {
                   children: [
                     GestureDetector(
                       //TODO: Tambah Searching
-                      onTap: () {
-                        showSearch(context: context, delegate: BarangSearch());
+                      onTap: () async {
+                        final Asset result = await showSearch(
+                          context: context,
+                          delegate: BarangSearch(
+                              (context.read<AssetCubit>().state as AssetLoaded)
+                                  .assets),
+                        );
+                        Get.to(DetailPage(asset: result));
                       },
                       child: Container(
                         width: 24,
@@ -124,31 +130,17 @@ class _DashboardPageState extends State<DashboardPage> {
                             )
                           ],
                         ),
-                        onChanged: (String value) {
+                        onChanged: (String value) async {
                           setState(() {
                             sortBy = value;
-                            if (sortBy == 'terbaru') {
-                              state.assets.sortedBy(
-                                (a, b) => b.tanggalDibeli.microsecondsSinceEpoch
-                                    .compareTo(
-                                  a.tanggalDibeli.microsecondsSinceEpoch,
-                                ),
-                              );
-                            } else if (sortBy == 'terlama') {
-                              state.assets.sortedBy(
-                                (a, b) => a.tanggalDibeli.microsecondsSinceEpoch
-                                    .compareTo(
-                                  b.tanggalDibeli.microsecondsSinceEpoch,
-                                ),
-                              );
-                            } else if (sortBy == 'kondisi') {
-                              state.assets.sortedBy(
-                                (a, b) => a.condition.compareTo(
-                                  b.condition,
-                                ),
-                              );
-                            }
                           });
+                          await context.read<AssetCubit>().sortAssets(sortBy);
+
+                          AssetState state = context.read<AssetCubit>().state;
+
+                          if (state is AssetLoaded) {
+                            setState(() {});
+                          } else {}
                         },
                       ),
                     ],
@@ -189,14 +181,14 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 }
 
-List<Asset> recentSearch = [mockAssets[0], mockAssets[9], mockAssets[2]];
+class BarangSearch extends SearchDelegate<Asset> {
+  final List<Asset> assets;
 
-class BarangSearch extends SearchDelegate<String> {
-  int selectedIndex;
+  BarangSearch(this.assets);
+
   @override
   List<Widget> buildActions(BuildContext context) {
     //Actions for appbar
-
     return [
       IconButton(
           icon: Icon(Icons.clear),
@@ -219,37 +211,46 @@ class BarangSearch extends SearchDelegate<String> {
   }
 
   @override
-  Widget buildResults(BuildContext context) {}
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    // show something when someone searches for something
-    final suggestionList = query.isEmpty
-        ? recentSearch
-        : mockAssets
-            .where((element) => element.name.toLowerCase().startsWith(query))
-            .toList();
+  Widget buildResults(BuildContext context) {
+    final result = assets
+        .where((element) =>
+            element.name.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+    if (result.isEmpty) {
+      return Center(child: Text("No Data"));
+    }
 
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
+        leading: SvgPicture.asset('assets/box_icon.svg'),
+        title: Text(result[index].name),
         onTap: () {
-          showResults(context);
-          selectedIndex = index;
+          close(context, result[index]);
         },
-        leading: Icon(Icons.location_city),
-        title: RichText(
-          text: TextSpan(
-              text: suggestionList[index].name.substring(0, query.length),
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
-              children: [
-                TextSpan(
-                    text: suggestionList[index].name.substring(query.length),
-                    style: TextStyle(color: Colors.grey))
-              ]),
-        ),
       ),
-      itemCount: suggestionList.length,
+      itemCount: result.length,
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final result = assets
+        .where((element) =>
+            element.name.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+    if (result.isEmpty) {
+      return Center(child: Text("No Data"));
+    }
+
+    return ListView.builder(
+      itemBuilder: (context, index) => ListTile(
+        leading: SvgPicture.asset('assets/box_icon.svg'),
+        title: Text(result[index].name),
+        onTap: () {
+          close(context, result[index]);
+        },
+      ),
+      itemCount: result.length,
     );
   }
 }
