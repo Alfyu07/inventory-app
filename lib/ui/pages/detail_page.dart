@@ -100,7 +100,7 @@ class DetailPage extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.only(left: 3),
                                       child: Text(
-                                        '${DateFormat("dd-MM-yyyy").format(asset.tanggalDibeli)}',
+                                        '${DateFormat("dd-MM-yyyy").format(asset.purchaseDate)}',
                                         style: blackFontStyle2.copyWith(
                                           fontWeight: FontWeight.bold,
                                           color: greyColor0,

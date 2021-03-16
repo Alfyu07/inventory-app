@@ -7,10 +7,26 @@ class AssetServices {
     return ApiReturnValue(value: mockAssets);
   }
 
-  static Future<ApiReturnValue<Asset>> addAsset() async {
-    await Future.delayed(Duration(seconds: 2));
+  static Future<ApiReturnValue<List<Asset>>> addAsset(Asset asset,
+      {http.Client client}) async {
+    client ??= http.Client();
 
-    return ApiReturnValue(value: mockAssets[0].copyWith(id: 123));
+    String url = baseUrl + 'asset';
+    var uri = Uri.parse(url);
+
+    var response = await client.post(uri, headers: {
+      "Content-type": "application/json",
+      "Authorization": User.token
+    });
+
+    if (response.statusCode != 200) {
+      return ApiReturnValue(message: "Add item failed, please try again");
+    }
+
+    var data = jsonDecode(response.body);
+
+    List<Asset> value = [Asset.fromJson(data['data']['asset'])];
+    return ApiReturnValue(value: value);
   }
 
   static Future<ApiReturnValue<List<Asset>>> sortAssets(value) async {

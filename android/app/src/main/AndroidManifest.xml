@@ -9,6 +9,7 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="inventory_app"
         android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         
         <activity
@@ -50,4 +51,6 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    
 </manifest>

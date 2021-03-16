@@ -12,76 +12,75 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final double assetListWidth = size.width - 2 * defaultMargin;
-    return ListView(
-      children: [
-        //* HEADER
-        Container(
-            padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-            height: size.height * 0.1,
-            width: double.infinity,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Dashboard', style: titleFontStyle0),
-                Row(
-                  children: [
-                    GestureDetector(
-                      //TODO: Tambah Searching
-                      onTap: () async {
-                        final Asset result = await showSearch(
-                          context: context,
-                          delegate: BarangSearch(
-                              (context.read<AssetCubit>().state as AssetLoaded)
-                                  .assets),
-                        );
-                        Get.to(DetailPage(asset: result));
-                      },
-                      child: Container(
-                        width: 24,
-                        height: 24,
-                        margin: EdgeInsets.only(right: 16),
-                        child: Stack(
-                          children: [
-                            SvgPicture.asset('assets/search.svg',
-                                color: blackColor.withOpacity(0.6))
-                          ],
+    return BlocBuilder<AssetCubit, AssetState>(builder: (_, state) {
+      return ListView(
+        children: [
+          //* HEADER
+          Container(
+              padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+              height: size.height * 0.1,
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Dashboard', style: titleFontStyle0),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        //TODO: Tambah Searching
+                        onTap: () async {
+                          final Asset result = await showSearch(
+                            context: context,
+                            delegate:
+                                BarangSearch((state as AssetLoaded).assets),
+                          );
+                          Get.to(DetailPage(asset: result));
+                        },
+                        child: Container(
+                          width: 24,
+                          height: 24,
+                          margin: EdgeInsets.only(right: 16),
+                          child: Stack(
+                            children: [
+                              SvgPicture.asset('assets/search.svg',
+                                  color: blackColor.withOpacity(0.6))
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    GestureDetector(
-                      //TODO: Tambah routing logout
-                      onTap: () {},
-                      child: Container(
-                        width: 24,
-                        height: 24,
-                        child: Stack(
-                          children: [
-                            SvgPicture.asset('assets/logout.svg',
-                                color: blackColor.withOpacity(0.6))
-                          ],
+                      GestureDetector(
+                        //TODO: Tambah routing logout
+                        onTap: () {},
+                        child: Container(
+                          width: 24,
+                          height: 24,
+                          child: Stack(
+                            children: [
+                              SvgPicture.asset('assets/logout.svg',
+                                  color: blackColor.withOpacity(0.6))
+                            ],
+                          ),
                         ),
-                      ),
-                    )
-                  ],
-                )
-              ],
-            )),
+                      )
+                    ],
+                  )
+                ],
+              )),
 
-        //* OVERVIEW CARD
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-          child: OverviewCard(
-            barangBaru: 32,
-            jumlahAsset: 120,
+          //* OVERVIEW CARD
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+            child: OverviewCard(
+              barangBaru: 32,
+              jumlahAsset: 120,
+            ),
           ),
-        ),
-        //* LIST BARANG
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-          margin: EdgeInsets.only(top: 8, bottom: 8),
-          width: double.infinity,
-          child: BlocBuilder<AssetCubit, AssetState>(
-            builder: (_, state) => (state is AssetLoaded)
+          //* LIST BARANG
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+            margin: EdgeInsets.only(top: 8, bottom: 8),
+            width: double.infinity,
+            child: (state is AssetLoaded)
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -134,50 +133,54 @@ class _DashboardPageState extends State<DashboardPage> {
                           setState(() {
                             sortBy = value;
                           });
-                          await context.read<AssetCubit>().sortAssets(sortBy);
-
-                          AssetState state = context.read<AssetCubit>().state;
-
-                          if (state is AssetLoaded) {
-                            setState(() {});
-                          } else {}
                         },
                       ),
                     ],
                   )
                 : SizedBox(),
           ),
-        ),
-        Container(
-          //TODO:tambahkan animasi untuk ux scrolling
-          height: size.height * 0.5 - 20,
-          color: kBackgroundColor,
-          child: BlocBuilder<AssetCubit, AssetState>(
-              builder: (_, state) => (state is AssetLoaded)
-                  ? ListView(
-                      physics: BouncingScrollPhysics(),
-                      children: state.assets
-                          .map((asset) => GestureDetector(
-                                onTap: () {
-                                  Get.to(DetailPage(
-                                    asset: asset,
-                                  ));
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.only(top: 10),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: defaultMargin),
-                                  child: AssetListItem(
-                                    itemWidth: assetListWidth,
-                                    asset: asset,
-                                  ),
-                                ),
-                              ))
-                          .toList())
+          Container(
+              //TODO:tambahkan animasi untuk ux scrolling
+              height: size.height * 0.5 - 20,
+              color: kBackgroundColor,
+              child: (state is AssetLoaded)
+                  ? Builder(builder: (_) {
+                      List<Asset> assets = state.assets;
+                      if (sortBy == 'terbaru') {
+                        assets.sort((a, b) => a.id.compareTo(b.id));
+                      } else if (sortBy == 'terlama') {
+                        assets.sort((a, b) => b.id.compareTo(a.id));
+                      } else if (sortBy == 'kondisi') {
+                        assets
+                            .sort((a, b) => a.condition.compareTo(b.condition));
+                      }
+                      return ListView(
+                          physics: BouncingScrollPhysics(),
+                          children: assets
+                              .map((asset) => GestureDetector(
+                                    onTap: () {
+                                      Get.to(
+                                        DetailPage(
+                                          asset: asset,
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      margin: EdgeInsets.only(top: 10),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: defaultMargin),
+                                      child: AssetListItem(
+                                        itemWidth: assetListWidth,
+                                        asset: asset,
+                                      ),
+                                    ),
+                                  ))
+                              .toList());
+                    })
                   : loadingIndicator),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 }
 

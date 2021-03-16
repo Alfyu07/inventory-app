@@ -39,16 +39,18 @@ class IllustrationPage extends StatelessWidget {
             margin: EdgeInsets.only(top: 30, bottom: 12),
             width: 200,
             height: 45,
-            child: RaisedButton(
+            child: ElevatedButton(
               onPressed: buttonTap1,
-              color: mainColor0,
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
+              style: ElevatedButton.styleFrom(
+                primary: mainColor0,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+              ),
               child: Text(
                 buttonTitle1,
                 style: whiteLabelStyle.copyWith(
-                  fontSize: 20,
+                  fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -59,16 +61,18 @@ class IllustrationPage extends StatelessWidget {
               : SizedBox(
                   width: 200,
                   height: 45,
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: buttonTap2,
-                    color: '8D92A3'.toColor(),
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
+                    style: ElevatedButton.styleFrom(
+                      primary: '8D92A3'.toColor(),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                    ),
                     child: Text(
                       buttonTitle2 ?? 'title',
                       style: whiteLabelStyle.copyWith(
-                        fontSize: 20,
+                        fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                     ),

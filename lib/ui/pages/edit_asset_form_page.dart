@@ -178,15 +178,17 @@ class _EditAssetPageState extends State<EditAssetPage> {
                   width: double.infinity,
                   height: 45,
                   margin: EdgeInsets.only(top: 20),
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       Get.to(SuccessOrderPage());
                     },
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      primary: mainColor0,
                     ),
-                    color: mainColor0,
                     child: Text(
                       'Tambahkan',
                       style: GoogleFonts.poppins(
@@ -238,8 +240,8 @@ class _EditAssetPageState extends State<EditAssetPage> {
   }
 
   Future<File> _pickImage(ImageSource source) async {
-    File selected = await ImagePicker.pickImage(source: source);
-    return selected;
+    PickedFile selected = await ImagePicker().getImage(source: source);
+    return File(selected.path);
   }
 
   void _clear() {
@@ -371,11 +373,13 @@ class _EditAssetPageState extends State<EditAssetPage> {
         ),
       ),
       actions: <Widget>[
-        new FlatButton(
+        new TextButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
-          textColor: Theme.of(context).primaryColor,
+          style: TextButton.styleFrom(
+            primary: Theme.of(context).primaryColor,
+          ),
           child: const Text('Close'),
         ),
       ],

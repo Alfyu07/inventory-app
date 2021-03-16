@@ -17,6 +17,16 @@ class AssetCubit extends Cubit<AssetState> {
     }
   }
 
+  Future<void> addAssets(Asset asset) async {
+    ApiReturnValue<List<Asset>> result = await AssetServices.addAsset(asset);
+
+    if (result.value != null) {
+      emit(AssetLoaded(result.value));
+    } else {
+      emit(AssetLoadingFailed(result.message));
+    }
+  }
+
   //TODO: Filter API
   Future<void> sortAssets(value) async {
     ApiReturnValue<List<Asset>> result = await AssetServices.sortAssets(value);

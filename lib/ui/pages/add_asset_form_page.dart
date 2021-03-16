@@ -148,7 +148,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('${DateFormat("dd-MM-yyyy").format(selectedDate)}',
+                      Text('${DateFormat("yyyy-MM-dd").format(selectedDate)}',
                           style: blackFontStyle1),
                       GestureDetector(
                         onTap: () => _selectDate(context),
@@ -174,15 +174,17 @@ class _AddAssetPageState extends State<AddAssetPage> {
                 width: double.infinity,
                 height: 45,
                 margin: EdgeInsets.only(top: 20),
-                child: RaisedButton(
+                child: ElevatedButton(
                   onPressed: () {
                     Get.to(SuccessOrderPage());
                   },
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    primary: mainColor0,
                   ),
-                  color: mainColor0,
                   child: Text(
                     'Tambahkan',
                     style: GoogleFonts.poppins(
@@ -233,8 +235,12 @@ class _AddAssetPageState extends State<AddAssetPage> {
   }
 
   Future<File> _pickImage(ImageSource source) async {
-    File selected = await ImagePicker.pickImage(source: source);
-    return selected;
+    PickedFile selected = await ImagePicker().getImage(source: source);
+    if (selected != null) {
+      return File(selected.path);
+    } else {
+      return null;
+    }
   }
 
   void _clear() {
@@ -312,6 +318,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
                 if (_imageFile == null) {
                   _imageFile = await _pickImage(ImageSource.gallery);
                   await _cropImage();
+                  Navigator.of(context).pop();
                 }
               },
               child: Container(
@@ -339,6 +346,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
                 if (_imageFile == null) {
                   _imageFile = await _pickImage(ImageSource.camera);
                   await _cropImage();
+                  Navigator.of(context).pop();
                 }
               },
               child: Container(
@@ -366,11 +374,13 @@ class _AddAssetPageState extends State<AddAssetPage> {
         ),
       ),
       actions: <Widget>[
-        new FlatButton(
+        new TextButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
-          textColor: Theme.of(context).primaryColor,
+          style: TextButton.styleFrom(
+            primary: Theme.of(context).primaryColor,
+          ),
           child: const Text('Close'),
         ),
       ],

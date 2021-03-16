@@ -6,17 +6,33 @@ class User extends Equatable {
   final String email;
   final String phoneNumber;
   final String address;
+  static String token;
 
   User({this.id, this.name, this.email, this.phoneNumber, this.address});
+
+  User copyWith({
+    int id,
+    String name,
+    String email,
+    String phoneNumber,
+    String address,
+  }) =>
+      User(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        email: email ?? this.email,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        address: address ?? this.address,
+      );
+
+  factory User.fromJson(Map<String, dynamic> data) => User(
+        id: data['id'],
+        name: data['name'],
+        email: data['email'],
+        phoneNumber: data['phoneNumber'],
+        address: data['address'],
+      );
+
   @override
-  // TODO: implement props
   List<Object> get props => [id, name, email, phoneNumber, address];
 }
-
-User mockUser = User(
-  id: 1,
-  name: 'Wahyu Alfandi',
-  address: 'Jl. Palapa II',
-  phoneNumber: '012345678',
-  email: 'wahyu@gmail.com',
-);

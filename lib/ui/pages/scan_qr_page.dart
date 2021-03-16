@@ -23,7 +23,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: size.height / 2 - 345),
+          margin: EdgeInsets.only(top: size.height / 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -42,18 +42,20 @@ class _ScanQRPageState extends State<ScanQRPage> {
                   Container(
                     width: 200,
                     height: 45,
-                    child: RaisedButton(
+                    child: ElevatedButton(
                       onPressed: () async {
                         if (result == null) {
                           scanQRcode();
                         }
                       },
-                      elevation: 0,
-                      padding: EdgeInsets.all(5),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        padding: EdgeInsets.all(5),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        primary: mainColor0,
                       ),
-                      color: mainColor0,
                       child: Text(
                         'Scan',
                         style: GoogleFonts.poppins(
@@ -79,9 +81,9 @@ class _ScanQRPageState extends State<ScanQRPage> {
   Future<void> scanQRcode() async {
     try {
       await Permission.camera.request();
-      String qr_result = await scanner.scan();
+      String qrResult = await scanner.scan();
       setState(() {
-        result = qr_result;
+        result = qrResult;
       });
     } on PlatformException {
       print('failed to get platform version');

@@ -7,20 +7,21 @@ class Asset extends Equatable {
   final String description;
   final String condition;
   final int price;
-  final DateTime tanggalDibeli;
+  final DateTime purchaseDate;
   final String qrCode;
   final String location;
 
-  Asset(
-      {this.id,
-      this.name,
-      this.picturePath,
-      this.description,
-      this.condition,
-      this.price,
-      this.tanggalDibeli,
-      this.qrCode,
-      this.location});
+  Asset({
+    this.id,
+    this.name,
+    this.picturePath,
+    this.description,
+    this.condition,
+    this.price,
+    this.purchaseDate,
+    this.qrCode,
+    this.location,
+  });
 
   Asset copyWith(
       {int id,
@@ -29,7 +30,7 @@ class Asset extends Equatable {
       String description,
       String condition,
       int price,
-      DateTime tanggalDibeli,
+      DateTime purchaseDate,
       String qrCode,
       String location}) {
     return Asset(
@@ -39,14 +40,21 @@ class Asset extends Equatable {
       description: description ?? this.description,
       condition: condition ?? this.condition,
       price: price ?? this.price,
-      tanggalDibeli: tanggalDibeli ?? this.tanggalDibeli,
+      purchaseDate: purchaseDate ?? this.purchaseDate,
       qrCode: qrCode ?? this.qrCode,
       location: location ?? this.location,
     );
   }
 
+  factory Asset.fromJson(Map<String, dynamic> data) => Asset(
+      id: data['id'],
+      name: data['name'],
+      description: data['description'],
+      price: data['price'],
+      condition: data['condition'],
+      purchaseDate: data['purchase_date'],
+      location: data['location']);
   @override
-  // TODO: implement props
   List<Object> get props => [
         id,
         name,
@@ -54,7 +62,7 @@ class Asset extends Equatable {
         description,
         condition,
         price,
-        tanggalDibeli,
+        purchaseDate,
         qrCode,
         location
       ];
@@ -69,7 +77,7 @@ List<Asset> mockAssets = [
     description:
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
     condition: 'bagus',
-    tanggalDibeli: DateTime.now(),
+    purchaseDate: DateTime.now(),
     price: 2000000,
     location: 'Gudang',
   ),
@@ -81,7 +89,7 @@ List<Asset> mockAssets = [
     description:
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
     condition: 'bagus',
-    tanggalDibeli: DateTime.now(),
+    purchaseDate: DateTime.now(),
     price: 2000000,
     location: 'Gudang',
   ),
@@ -94,7 +102,7 @@ List<Asset> mockAssets = [
           'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
       condition: 'bagus',
       price: 2000000,
-      tanggalDibeli: DateTime.now(),
+      purchaseDate: DateTime.now(),
       location: 'Gudang'),
   Asset(
     id: 4,
@@ -104,7 +112,7 @@ List<Asset> mockAssets = [
     description:
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
     condition: 'rusak',
-    tanggalDibeli: DateTime.now(),
+    purchaseDate: DateTime.now(),
     price: 2000000,
     location: 'Gudang',
   ),
@@ -116,7 +124,7 @@ List<Asset> mockAssets = [
     description:
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
     condition: 'rusak',
-    tanggalDibeli: DateTime.now(),
+    purchaseDate: DateTime.now(),
     price: 2000000,
     location: 'Gudang',
   ),
@@ -128,7 +136,7 @@ List<Asset> mockAssets = [
     description:
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
     condition: 'rusak',
-    tanggalDibeli: DateTime.now(),
+    purchaseDate: DateTime.now(),
     price: 2000000,
     location: 'Gudang',
   ),
@@ -140,7 +148,7 @@ List<Asset> mockAssets = [
     description:
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
     condition: 'bagus',
-    tanggalDibeli: DateTime.now(),
+    purchaseDate: DateTime.now(),
     price: 2000000,
     location: 'Gudang',
   ),
@@ -152,7 +160,7 @@ List<Asset> mockAssets = [
     description:
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
     condition: 'bagus',
-    tanggalDibeli: DateTime.now(),
+    purchaseDate: DateTime.now(),
     price: 2000000,
     location: 'Kantor',
   ),
@@ -164,7 +172,7 @@ List<Asset> mockAssets = [
     description:
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
     condition: 'bagus',
-    tanggalDibeli: DateTime.now(),
+    purchaseDate: DateTime.now(),
     price: 2000000,
     location: 'Gudang',
   ),
@@ -176,7 +184,7 @@ List<Asset> mockAssets = [
     description:
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
     condition: 'bagus',
-    tanggalDibeli: DateTime.now(),
+    purchaseDate: DateTime.now(),
     price: 2000000,
     location: 'Gudang',
   ),

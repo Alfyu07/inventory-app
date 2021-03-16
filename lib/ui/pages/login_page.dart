@@ -16,7 +16,6 @@ class _LoginPageState extends State<LoginPage> {
     final bottom = MediaQuery.of(context).viewInsets.bottom;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      resizeToAvoidBottomPadding: false,
       body: SingleChildScrollView(
         reverse: true,
         physics: NeverScrollableScrollPhysics(),
@@ -104,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
       height: 50,
       child: isLoading
           ? loadingIndicator
-          : RaisedButton(
+          : ElevatedButton(
               onPressed: () async {
                 setState(() {
                   isLoading = true;
@@ -118,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
 
                 if (state is UserLoaded) {
                   context.read<AssetCubit>().getAssets();
-                  Get.to(MainPage());
+                  Get.off(MainPage());
                 } else {
                   Get.snackbar(
                     "",
@@ -140,11 +139,13 @@ class _LoginPageState extends State<LoginPage> {
                   });
                 }
               },
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                primary: mainColor0,
               ),
-              color: mainColor0,
               child: Text(
                 'Sign In',
                 style: GoogleFonts.poppins(
@@ -161,9 +162,11 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildForgotPasswordBtn() {
     return Container(
       alignment: Alignment.centerLeft,
-      child: FlatButton(
+      child: TextButton(
         onPressed: () => print('Forgot Password Button Pressed'),
-        padding: EdgeInsets.only(left: 0.0),
+        style: TextButton.styleFrom(
+          padding: EdgeInsets.only(left: 0.0),
+        ),
         child: Text(
           'Forgot Password?',
           style: GoogleFonts.poppins(
@@ -185,13 +188,13 @@ class _LoginPageState extends State<LoginPage> {
           border: Border.all(width: 3, color: greyColor1),
           borderRadius: BorderRadius.circular(5)),
       child: TextField(
-        style: blackFontStyle1,
+        style: blackFontStyle1.copyWith(height: 1.2),
         controller: emailController,
         decoration: InputDecoration(
-            border: InputBorder.none,
-            hintStyle: greyFontStyle.copyWith(fontSize: 16),
-            hintText: 'Enter your email',
-            contentPadding: EdgeInsets.only(bottom: 10)),
+          border: InputBorder.none,
+          hintStyle: greyFontStyle.copyWith(fontSize: 16),
+          hintText: 'Enter your email',
+        ),
       ),
     );
   }
@@ -206,14 +209,14 @@ class _LoginPageState extends State<LoginPage> {
         borderRadius: BorderRadius.circular(5),
       ),
       child: TextField(
-        style: blackFontStyle1,
+        style: blackFontStyle1.copyWith(height: 1.2),
         controller: passwordController,
         obscureText: true,
         decoration: InputDecoration(
-            border: InputBorder.none,
-            hintStyle: greyFontStyle.copyWith(fontSize: 16),
-            hintText: 'Enter your password',
-            contentPadding: EdgeInsets.only(bottom: 10)),
+          border: InputBorder.none,
+          hintStyle: greyFontStyle.copyWith(fontSize: 16),
+          hintText: 'Enter your password',
+        ),
       ),
     );
   }
