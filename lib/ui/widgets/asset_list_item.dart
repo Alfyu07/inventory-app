@@ -34,7 +34,7 @@ class AssetListItem extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.clip,
                   ),
-                  AssetConditionIndicator(asset: asset)
+                  AssetConditionIndicator(condition: asset.condition)
                 ],
               ),
             ],

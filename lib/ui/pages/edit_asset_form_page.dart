@@ -180,7 +180,7 @@ class _EditAssetPageState extends State<EditAssetPage> {
                   margin: EdgeInsets.only(top: 20),
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.to(SuccessOrderPage());
+                      Get.to(AddAssetSuccessPage());
                     },
                     style: ElevatedButton.styleFrom(
                       elevation: 0,

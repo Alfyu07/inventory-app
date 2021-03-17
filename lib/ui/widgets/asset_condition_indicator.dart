@@ -1,15 +1,15 @@
 part of 'widgets.dart';
 
 class AssetConditionIndicator extends StatelessWidget {
-  final Asset asset;
+  final String condition;
   const AssetConditionIndicator({
-    this.asset,
+    this.condition,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: (asset.condition.toLowerCase() == 'bagus')
+      child: (condition.toLowerCase() == 'bagus')
           ? Row(
               children: [
                 Container(

@@ -7,25 +7,38 @@ class AssetServices {
     return ApiReturnValue(value: mockAssets);
   }
 
-  static Future<ApiReturnValue<List<Asset>>> addAsset(Asset asset,
-      {http.Client client}) async {
-    client ??= http.Client();
-
-    String url = baseUrl + 'asset';
+  static Future<ApiReturnValue<Asset>> addAsset(Asset asset, File imageFile,
+      {http.MultipartRequest request}) async {
+    String url = baseUrl + 'asset/register';
     var uri = Uri.parse(url);
+    request ??= http.MultipartRequest("POST", uri)
+      ..headers["Content-Type"] = "application/json"
+      ..headers["Authorization"] = "Bearer ${User.token}";
 
-    var response = await client.post(uri, headers: {
-      "Content-type": "application/json",
-      "Authorization": User.token
-    });
+    request.fields['name'] = asset.name;
+    request.fields['condition'] = asset.condition;
+    request.fields['purchase_date'] = asset.purchaseDate;
+    request.fields['price'] = asset.price.toString();
+    request.fields['location'] = asset.location;
+    request.fields['description'] = asset.description;
+
+    var multipartFile =
+        await http.MultipartFile.fromPath('image', imageFile.path);
+    request.files.add(multipartFile);
+
+    var response = await request.send();
 
     if (response.statusCode != 200) {
       return ApiReturnValue(message: "Add item failed, please try again");
     }
+    String responseBody = await response.stream.bytesToString();
 
-    var data = jsonDecode(response.body);
+    var data = jsonDecode(responseBody);
 
-    List<Asset> value = [Asset.fromJson(data['data']['asset'])];
+    Asset value = Asset.fromJson(data['data']['asset']);
+    value = value.copyWith(
+        picturePath: "http://10.0.2.2:8000/storage/" + value.picturePath);
+    print(value.picturePath);
     return ApiReturnValue(value: value);
   }
 

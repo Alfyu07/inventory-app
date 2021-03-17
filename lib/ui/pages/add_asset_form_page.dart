@@ -1,6 +1,7 @@
 part of 'pages.dart';
 
 class AddAssetPage extends StatefulWidget {
+  Asset asset;
   @override
   _AddAssetPageState createState() => _AddAssetPageState();
 }
@@ -8,11 +9,12 @@ class AddAssetPage extends StatefulWidget {
 class _AddAssetPageState extends State<AddAssetPage> {
   //TODO: state management
   TextEditingController nameController = TextEditingController();
-  TextEditingController hargaController = TextEditingController();
-  TextEditingController simpanController = TextEditingController();
-  TextEditingController keteranganController = TextEditingController();
-  String _kondisiBarang;
-  DateTime selectedDate = DateTime.now();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  String _condition;
+  bool isLoading = false;
+  DateTime purchaseDate = DateTime.now();
   File _imageFile;
 
   var kondisi = ['Bagus', 'Rusak'];
@@ -34,73 +36,62 @@ class _AddAssetPageState extends State<AddAssetPage> {
           ),
         ),
         _imageFile == null
-            ? Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                        vertical: 10, horizontal: defaultMargin),
-                    width: double.infinity,
-                    height: 200,
-                    decoration: BoxDecoration(
-                        color: lightGreyColor,
-                        borderRadius: BorderRadius.circular(8)),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) =>
-                            _buildPopupDialog(context),
-                      );
-                    },
-                    child: Container(
+            ? GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        _buildPopupDialog(context),
+                  );
+                },
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                          vertical: 10, horizontal: defaultMargin),
+                      width: double.infinity,
+                      height: 200,
+                      decoration: BoxDecoration(
+                          color: lightGreyColor,
+                          borderRadius: BorderRadius.circular(8)),
+                    ),
+                    Container(
                       width: 60,
                       height: 60,
                       child: Stack(
                         children: [SvgPicture.asset('assets/photo.svg')],
                       ),
                     ),
-                  )
-                ],
+                  ],
+                ),
               )
-            : Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                        vertical: 10, horizontal: defaultMargin),
-                    width: double.infinity,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      color: lightGreyColor,
-                      borderRadius: BorderRadius.circular(8),
-                      image: DecorationImage(
-                        image: FileImage(_imageFile),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      _clear();
-                    },
-                    child: Container(
-                      width: 60,
-                      height: 60,
-                      alignment: Alignment.center,
+            : GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        _buildPopupDialog(context),
+                  );
+                },
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                          vertical: 10, horizontal: defaultMargin),
+                      width: double.infinity,
+                      height: 200,
                       decoration: BoxDecoration(
-                        color: Colors.black12,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Stack(
-                        children: [
-                          SvgPicture.asset('assets/clear.svg',
-                              color: Colors.white, width: 40),
-                        ],
+                        color: lightGreyColor,
+                        borderRadius: BorderRadius.circular(8),
+                        image: DecorationImage(
+                          image: FileImage(_imageFile),
+                        ),
                       ),
                     ),
-                  )
-                ],
+                  ],
+                ),
               ),
         Container(
           margin: EdgeInsets.symmetric(
@@ -118,7 +109,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
               //Harga Pembelian
               Text('Harga barang', style: blackFontStyle0),
               buildTextField(
-                controller: hargaController,
+                controller: priceController,
                 hint: 'Masukkan harga barang',
                 contentPadding: EdgeInsets.only(bottom: 10.0),
               ),
@@ -126,7 +117,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
               //Input Lokasi
               Text('Lokasi', style: blackFontStyle0),
               buildTextField(
-                controller: simpanController,
+                controller: locationController,
                 hint: 'Masukkan lokasi barang disimpan',
                 contentPadding: EdgeInsets.only(bottom: 10.0),
               ),
@@ -148,7 +139,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('${DateFormat("yyyy-MM-dd").format(selectedDate)}',
+                      Text('${DateFormat("dd-MM-yyyy").format(purchaseDate)}',
                           style: blackFontStyle1),
                       GestureDetector(
                         onTap: () => _selectDate(context),
@@ -165,36 +156,81 @@ class _AddAssetPageState extends State<AddAssetPage> {
               //Input keterangan
               Text('Keterangan', style: blackFontStyle0),
               buildTextField(
-                controller: keteranganController,
+                controller: descriptionController,
                 hint: 'Masukkan Keterangan',
                 maxLines: null,
                 height: 80.0,
               ),
-              Container(
-                width: double.infinity,
-                height: 45,
-                margin: EdgeInsets.only(top: 20),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Get.to(SuccessOrderPage());
-                  },
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    primary: mainColor0,
-                  ),
-                  child: Text(
-                    'Tambahkan',
-                    style: GoogleFonts.poppins(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              )
+              (isLoading)
+                  ? loadingIndicator
+                  : Container(
+                      width: double.infinity,
+                      height: 45,
+                      margin: EdgeInsets.only(top: 20),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          widget.asset = Asset(
+                            name: nameController.text,
+                            condition: _condition,
+                            description: descriptionController.text,
+                            price: priceController.text.toInt(),
+                            purchaseDate:
+                                DateFormat("yyyy-MM-dd").format(purchaseDate),
+                            location: locationController.text,
+                          );
+                          setState(() {
+                            isLoading = true;
+                          });
+
+                          await context
+                              .read<AssetCubit>()
+                              .addAsset(widget.asset, _imageFile);
+
+                          AssetState state = context.read<AssetCubit>().state;
+
+                          if (state is SingleAssetLoaded) {
+                            widget.asset = state.asset;
+                          } else if (state is AssetLoadingFailed) {
+                            Get.snackbar(
+                              "",
+                              "",
+                              backgroundColor: 'D9435E'.toColor(),
+                              icon: Icon(Icons.close_outlined,
+                                  color: Colors.white),
+                              titleText: Text(
+                                'Sign In Failed',
+                                style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              messageText: Text(
+                                (state as UserLoadingFailed).message,
+                                style: GoogleFonts.poppins(color: Colors.white),
+                              ),
+                            );
+                            setState(() {
+                              isLoading = false;
+                            });
+                          }
+                          Get.to(AddAssetSuccessPage(asset: widget.asset));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          primary: mainColor0,
+                        ),
+                        child: Text(
+                          'Tambahkan',
+                          style: GoogleFonts.poppins(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    )
             ],
           ),
         ),
@@ -238,8 +274,6 @@ class _AddAssetPageState extends State<AddAssetPage> {
     PickedFile selected = await ImagePicker().getImage(source: source);
     if (selected != null) {
       return File(selected.path);
-    } else {
-      return null;
     }
   }
 
@@ -258,11 +292,11 @@ class _AddAssetPageState extends State<AddAssetPage> {
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
-          value: _kondisiBarang,
+          value: _condition,
           isDense: true,
           onChanged: (value) {
             setState(() {
-              _kondisiBarang = value;
+              _condition = value;
             });
           },
           items: values
@@ -315,11 +349,12 @@ class _AddAssetPageState extends State<AddAssetPage> {
           children: <Widget>[
             GestureDetector(
               onTap: () async {
-                if (_imageFile == null) {
-                  _imageFile = await _pickImage(ImageSource.gallery);
+                File selected = await _pickImage(ImageSource.gallery);
+                if (selected != null) {
+                  _imageFile = selected;
                   await _cropImage();
-                  Navigator.of(context).pop();
                 }
+                Navigator.of(context).pop();
               },
               child: Container(
                 child: Row(
@@ -343,11 +378,12 @@ class _AddAssetPageState extends State<AddAssetPage> {
             ),
             GestureDetector(
               onTap: () async {
-                if (_imageFile == null) {
-                  _imageFile = await _pickImage(ImageSource.camera);
+                File selected = await _pickImage(ImageSource.camera);
+                if (selected != null) {
+                  _imageFile = selected;
                   await _cropImage();
-                  Navigator.of(context).pop();
                 }
+                Navigator.of(context).pop();
               },
               child: Container(
                 margin: EdgeInsets.only(top: 16),
@@ -405,7 +441,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
   buildMaterialDatePicker(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: purchaseDate,
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
       builder: (context, child) {
@@ -417,10 +453,13 @@ class _AddAssetPageState extends State<AddAssetPage> {
         );
       },
     );
-    if (picked != null && picked != selectedDate)
+    if (picked != null && picked != purchaseDate) {
       setState(() {
-        selectedDate = picked;
+        purchaseDate = picked;
       });
+
+      print(picked);
+    }
   }
 
   buildCupertinoDatePicker(BuildContext context) {
@@ -433,12 +472,12 @@ class _AddAssetPageState extends State<AddAssetPage> {
             child: CupertinoDatePicker(
               mode: CupertinoDatePickerMode.date,
               onDateTimeChanged: (picked) {
-                if (picked != null && picked != selectedDate)
+                if (picked != null && picked != purchaseDate)
                   setState(() {
-                    selectedDate = picked;
+                    purchaseDate = picked;
                   });
               },
-              initialDateTime: selectedDate,
+              initialDateTime: purchaseDate,
               minimumYear: 2000,
               maximumYear: 2100,
             ),

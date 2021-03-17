@@ -34,7 +34,7 @@ class _DashboardPageState extends State<DashboardPage> {
                             delegate:
                                 BarangSearch((state as AssetLoaded).assets),
                           );
-                          Get.to(DetailPage(asset: result));
+                          Get.to(DetailPage());
                         },
                         child: Container(
                           width: 24,
@@ -161,8 +161,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                     onTap: () {
                                       Get.to(
                                         DetailPage(
-                                          asset: asset,
-                                        ),
+                                            // asset: asset,
+                                            ),
                                       );
                                     },
                                     child: Container(

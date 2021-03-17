@@ -31,5 +31,6 @@ part 'dashboard_page.dart';
 part 'scan_qr_page.dart';
 part 'detail_page.dart';
 part 'illustration_page.dart';
-part 'success_order.dart';
+part 'success_add_asset_page.dart';
+part 'error_404.dart';
 part 'edit_item.dart';

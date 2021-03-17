@@ -18,6 +18,15 @@ class AssetLoaded extends AssetState {
   List<Object> get props => [assets];
 }
 
+class SingleAssetLoaded extends AssetState {
+  final Asset asset;
+
+  SingleAssetLoaded(this.asset);
+
+  @override
+  List<Object> get props => [asset];
+}
+
 class AssetLoadingFailed extends AssetState {
   final String message;
 

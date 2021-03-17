@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:inventory_app/models/models.dart';
@@ -17,11 +19,12 @@ class AssetCubit extends Cubit<AssetState> {
     }
   }
 
-  Future<void> addAssets(Asset asset) async {
-    ApiReturnValue<List<Asset>> result = await AssetServices.addAsset(asset);
+  Future<void> addAsset(Asset asset, File imageFile) async {
+    ApiReturnValue<Asset> result =
+        await AssetServices.addAsset(asset, imageFile);
 
     if (result.value != null) {
-      emit(AssetLoaded(result.value));
+      emit(SingleAssetLoaded(result.value));
     } else {
       emit(AssetLoadingFailed(result.message));
     }
