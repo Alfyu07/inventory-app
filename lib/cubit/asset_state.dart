@@ -27,6 +27,15 @@ class SingleAssetLoaded extends AssetState {
   List<Object> get props => [asset];
 }
 
+class AssetDeleted extends AssetState {
+  final String message;
+
+  AssetDeleted(this.message);
+
+  @override
+  List<Object> get props => [MessageChannel()];
+}
+
 class AssetLoadingFailed extends AssetState {
   final String message;
 

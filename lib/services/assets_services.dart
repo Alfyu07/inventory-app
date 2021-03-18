@@ -1,8 +1,12 @@
 part of 'services.dart';
 
 class AssetServices {
-  static Future<ApiReturnValue<List<Asset>>> getAssets() async {
-    await Future.delayed(Duration(seconds: 3));
+  static Future<ApiReturnValue<List<Asset>>> getAssets(
+      {http.Client client}) async {
+    client ??= http.Client();
+
+    String url = baseUrl + 'asset';
+    var uri = Uri.parse(url);
 
     return ApiReturnValue(value: mockAssets);
   }
@@ -39,6 +43,28 @@ class AssetServices {
     value = value.copyWith(
         picturePath: "http://10.0.2.2:8000/storage/" + value.picturePath);
     print(value.picturePath);
+    return ApiReturnValue(value: value);
+  }
+
+  static Future<ApiReturnValue<String>> delete(int id,
+      {http.Client client}) async {
+    client ??= http.Client();
+
+    String url = baseUrl + 'delete/$id';
+    var uri = Uri.parse(url);
+    var response = await client.post(
+      uri,
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": "Bearer ${User.token}"
+      },
+    );
+
+    if (response.statusCode != 200) {
+      ApiReturnValue(message: 'Please try again');
+    }
+    var data = jsonDecode(response.body);
+    var value = data['meta']['message'];
     return ApiReturnValue(value: value);
   }
 
