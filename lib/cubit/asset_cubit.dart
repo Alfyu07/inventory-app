@@ -9,12 +9,23 @@ part 'asset_state.dart';
 class AssetCubit extends Cubit<AssetState> {
   AssetCubit() : super(AssetInitial());
 
-  Future<void> getAssets() async {
-    ApiReturnValue<List<Asset>> result = await AssetServices.getAssets();
+  Future<void> getAssets({int page, int limit, String sort}) async {
+    ApiReturnValue<List<Asset>> result =
+        await AssetServices.getAssets(page: page, limit: limit, sort: sort);
 
     if (result.value != null) {
-      emit(AssetLoaded(result.value));
-    } else {
+      emit(AssetLoaded(assets: result.value));
+    } else if (result.value == null) {
+      emit(AssetLoadingFailed(result.message));
+    }
+  }
+
+  Future<void> getAssetById(int id) async {
+    ApiReturnValue<List<Asset>> result = await AssetServices.getAssetById(id);
+
+    if (result.value != null) {
+      emit(AssetLoaded(assets: result.value));
+    } else if (result.value == null) {
       emit(AssetLoadingFailed(result.message));
     }
   }
@@ -35,17 +46,6 @@ class AssetCubit extends Cubit<AssetState> {
 
     if (result.value != null) {
       emit(AssetDeleted(result.value));
-    } else {
-      emit(AssetLoadingFailed(result.message));
-    }
-  }
-
-  //TODO: Filter API
-  Future<void> sortAssets(value) async {
-    ApiReturnValue<List<Asset>> result = await AssetServices.sortAssets(value);
-
-    if (result.value != null) {
-      emit(AssetLoaded(result.value));
     } else {
       emit(AssetLoadingFailed(result.message));
     }

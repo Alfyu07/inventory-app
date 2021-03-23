@@ -118,10 +118,10 @@ class _LoginPageState extends State<LoginPage> {
                 if (state is UserLoaded) {
                   context.read<AssetCubit>().getAssets();
                   Get.off(MainPage());
-                } else {
+                } else if (state is UserLoadingFailed) {
                   Get.snackbar(
                     "",
-                    "",
+                    state.message,
                     backgroundColor: 'D9435E'.toColor(),
                     icon: Icon(Icons.close_outlined, color: Colors.white),
                     titleText: Text(
@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                           color: Colors.white, fontWeight: FontWeight.w600),
                     ),
                     messageText: Text(
-                      (state as UserLoadingFailed).message,
+                      state.message,
                       style: GoogleFonts.poppins(color: Colors.white),
                     ),
                   );

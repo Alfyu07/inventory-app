@@ -1,7 +1,7 @@
 part of 'pages.dart';
 
 class EditAssetPage extends StatefulWidget {
-  Asset asset;
+  final Asset asset;
 
   EditAssetPage({this.asset});
   @override

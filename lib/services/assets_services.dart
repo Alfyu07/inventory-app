@@ -2,13 +2,65 @@ part of 'services.dart';
 
 class AssetServices {
   static Future<ApiReturnValue<List<Asset>>> getAssets(
-      {http.Client client}) async {
+      {int page, int limit, String sort, http.Client client}) async {
     client ??= http.Client();
 
-    String url = baseUrl + 'asset';
-    var uri = Uri.parse(url);
+    final Map<String, String> params = {'page': page.toString()};
+    if (limit != null) {
+      params['limit'] = limit.toString();
+    }
+    if (sort != null) {
+      params['sort'] = sort;
+    }
+    var uri = Uri.http("10.0.2.2:8000", '/api/asset', params);
 
-    return ApiReturnValue(value: mockAssets);
+    var response = await client.get(
+      uri,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${User.token}"
+      },
+    );
+
+    if (response.statusCode != 200) {
+      return ApiReturnValue(message: "Please try again");
+    }
+    var data = jsonDecode(response.body);
+
+    List<Asset> assets = (data['data']['data'] as Iterable)
+        .map((e) => Asset.fromJson(e))
+        .toList();
+
+    return ApiReturnValue(value: assets);
+
+    //TODO: implement reply http request
+  }
+
+  static Future<ApiReturnValue<List<Asset>>> getAssetById(int id,
+      {http.Client client}) async {
+    try {
+      client ??= http.Client();
+
+      String url = baseUrl + 'assets?id=${id.toString()}';
+      var uri = Uri.parse(url);
+      var response = await client.get(
+        uri,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${User.token}"
+        },
+      );
+
+      if (response.statusCode != 200) {
+        return ApiReturnValue(message: 'Please try again');
+      }
+
+      var data = jsonDecode(response.body);
+      var value = data['data']['data'];
+      return ApiReturnValue(value: value);
+    } on SocketException {
+      return ApiReturnValue(message: "Check your internet connection");
+    }
   }
 
   static Future<ApiReturnValue<Asset>> addAsset(Asset asset, File imageFile,
@@ -50,12 +102,12 @@ class AssetServices {
       {http.Client client}) async {
     client ??= http.Client();
 
-    String url = baseUrl + 'delete/$id';
+    String url = baseUrl + 'asset/delete/${id.toString()}';
     var uri = Uri.parse(url);
-    var response = await client.post(
+    var response = await client.delete(
       uri,
       headers: {
-        "Content-type": "application/json",
+        "Content-Type": "application/json",
         "Authorization": "Bearer ${User.token}"
       },
     );

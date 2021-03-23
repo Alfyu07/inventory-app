@@ -17,7 +17,7 @@ class OverviewCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
           ),
           child: Container(
-            width: 150,
+            width: MediaQuery.of(context).size.width * 0.4,
             height: 150,
             padding: EdgeInsets.symmetric(
                 horizontal: defaultMargin, vertical: defaultMargin),
@@ -52,7 +52,7 @@ class OverviewCard extends StatelessWidget {
           ),
           child: Container(
             margin: EdgeInsets.only(),
-            width: 150,
+            width: MediaQuery.of(context).size.width * 0.4,
             height: 150,
             padding: EdgeInsets.symmetric(
                 horizontal: defaultMargin, vertical: defaultMargin),

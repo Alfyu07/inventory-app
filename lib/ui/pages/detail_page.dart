@@ -5,7 +5,7 @@ class DetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return BlocBuilder<AssetCubit, AssetState>(
-      builder: (_, state) {
+      builder: (context, state) {
         if (state is SingleAssetLoaded) {
           return Scaffold(
             body: Center(
@@ -250,7 +250,8 @@ class DetailPage extends StatelessWidget {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) =>
-                                            _buildAlertDialog(context),
+                                            _buildAlertDialog(
+                                                context, state.asset.id),
                                       );
                                     },
                                     style: TextButton.styleFrom(
@@ -296,12 +297,25 @@ class DetailPage extends StatelessWidget {
               ),
             ),
           );
-        } else {}
+        } else if (state is AssetLoadingFailed) {
+          return IllustrationPage(
+            title: '404 Not Found',
+            subtitle: 'Data tidak ditemukan',
+            picturePath: 'assets/404_error.png',
+            buttonTap1: () {
+              context.read<AssetCubit>().getAssets();
+              Get.offAll(MainPage());
+            },
+            buttonTitle1: 'Kembali ke home',
+          );
+        } else {
+          return Container();
+        }
       },
     );
   }
 
-  _buildAlertDialog(BuildContext context, SingleAssetLoaded state) {
+  _buildAlertDialog(BuildContext context, int id) {
     return AlertDialog(
       title: Text('Hapus'),
       content: SingleChildScrollView(
@@ -320,9 +334,33 @@ class DetailPage extends StatelessWidget {
           child: Text('DELETE',
               style: blackFontStyle2.copyWith(color: dangerColor)),
           onPressed: () async {
-            await context.read<AssetCubit>().delete(state.asset.id);
+            await context.read<AssetCubit>().delete(id);
 
-            AssetState deleteState = context.read<AssetCubit>().state;
+            AssetState state = context.read<AssetCubit>().state;
+
+            if (state is AssetDeleted) {
+              Navigator.of(context).pop();
+
+              await context.read<AssetCubit>().getAssets();
+              Get.off(MainPage());
+            } else if (state is AssetLoadingFailed) {
+              Navigator.of(context).pop();
+              Get.snackbar(
+                "",
+                "",
+                backgroundColor: 'D9435E'.toColor(),
+                icon: Icon(Icons.close_outlined, color: Colors.white),
+                titleText: Text(
+                  'Sign In Failed',
+                  style: GoogleFonts.poppins(
+                      color: Colors.white, fontWeight: FontWeight.w600),
+                ),
+                messageText: Text(
+                  (state as UserLoadingFailed).message,
+                  style: GoogleFonts.poppins(color: Colors.white),
+                ),
+              );
+            }
           },
         ),
       ],

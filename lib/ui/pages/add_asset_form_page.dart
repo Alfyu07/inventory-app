@@ -1,7 +1,6 @@
 part of 'pages.dart';
 
 class AddAssetPage extends StatefulWidget {
-  Asset asset;
   @override
   _AddAssetPageState createState() => _AddAssetPageState();
 }
@@ -16,7 +15,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
   bool isLoading = false;
   DateTime purchaseDate = DateTime.now();
   File _imageFile;
-
+  Asset asset;
   var kondisi = ['Bagus', 'Rusak'];
 
   @override
@@ -169,7 +168,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
                       margin: EdgeInsets.only(top: 20),
                       child: ElevatedButton(
                         onPressed: () async {
-                          widget.asset = Asset(
+                          asset = Asset(
                             name: nameController.text,
                             condition: _condition,
                             description: descriptionController.text,
@@ -184,12 +183,12 @@ class _AddAssetPageState extends State<AddAssetPage> {
 
                           await context
                               .read<AssetCubit>()
-                              .addAsset(widget.asset, _imageFile);
+                              .addAsset(asset, _imageFile);
 
                           AssetState state = context.read<AssetCubit>().state;
 
                           if (state is SingleAssetLoaded) {
-                            widget.asset = state.asset;
+                            asset = state.asset;
                           } else if (state is AssetLoadingFailed) {
                             Get.snackbar(
                               "",
@@ -204,7 +203,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
                                     fontWeight: FontWeight.w600),
                               ),
                               messageText: Text(
-                                (state as UserLoadingFailed).message,
+                                state.message,
                                 style: GoogleFonts.poppins(color: Colors.white),
                               ),
                             );
@@ -212,7 +211,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
                               isLoading = false;
                             });
                           }
-                          Get.to(AddAssetSuccessPage(asset: widget.asset));
+                          Get.to(AddAssetSuccessPage(asset: asset));
                         },
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
@@ -275,10 +274,6 @@ class _AddAssetPageState extends State<AddAssetPage> {
     if (selected != null) {
       return File(selected.path);
     }
-  }
-
-  void _clear() {
-    setState(() => _imageFile = null);
   }
 
   Container buildDropdownForm({List<String> values, width = double.infinity}) {
