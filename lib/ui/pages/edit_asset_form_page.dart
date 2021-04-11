@@ -48,7 +48,7 @@ class _EditAssetPageState extends State<EditAssetPage> {
                       height: 200,
                       decoration: BoxDecoration(
                           color: lightGreyColor,
-                          borderRadius: BorderRadius.circular(8)),
+                          borderRadius: BorderRadius.circular(6)),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -78,7 +78,7 @@ class _EditAssetPageState extends State<EditAssetPage> {
                       height: 200,
                       decoration: BoxDecoration(
                         color: lightGreyColor,
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(6),
                         image: DecorationImage(
                           image: FileImage(_imageFile),
                         ),
@@ -185,7 +185,7 @@ class _EditAssetPageState extends State<EditAssetPage> {
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(6),
                       ),
                       primary: mainColor0,
                     ),

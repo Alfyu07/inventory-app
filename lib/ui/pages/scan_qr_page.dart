@@ -52,18 +52,15 @@ class _ScanQRPageState extends State<ScanQRPage> {
                         elevation: 0,
                         padding: EdgeInsets.all(5),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(6),
                         ),
-                        primary: mainColor0,
+                        primary: mainColor1,
                       ),
-                      child: Text(
-                        'Scan',
-                        style: GoogleFonts.poppins(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                      child: Text('Scan',
+                          style: blackFontStyle0.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                          )),
                     ),
                   ),
                   result != null

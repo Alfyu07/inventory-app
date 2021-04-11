@@ -5,33 +5,33 @@ class AssetServices {
       {int page, int limit, String sort, http.Client client}) async {
     client ??= http.Client();
 
-    final Map<String, String> params = {'page': page.toString()};
-    if (limit != null) {
-      params['limit'] = limit.toString();
-    }
-    if (sort != null) {
-      params['sort'] = sort;
-    }
-    var uri = Uri.http("10.0.2.2:8000", '/api/asset', params);
+    // final Map<String, String> params = {'page': page.toString()};
+    // if (limit != null) {
+    //   params['limit'] = limit.toString();
+    // }
+    // if (sort != null) {
+    //   params['sort'] = sort;
+    // }
+    // var uri = Uri.http("10.0.2.2:8000", '/api/asset', params);
 
-    var response = await client.get(
-      uri,
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer ${User.token}"
-      },
-    );
+    // var response = await client.get(
+    //   uri,
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "Authorization": "Bearer ${User.token}"
+    //   },
+    // );
 
-    if (response.statusCode != 200) {
-      return ApiReturnValue(message: "Please try again");
-    }
-    var data = jsonDecode(response.body);
+    // if (response.statusCode != 200) {
+    //   return ApiReturnValue(message: "Please try again");
+    // }
+    // var data = jsonDecode(response.body);
 
-    List<Asset> assets = (data['data']['data'] as Iterable)
-        .map((e) => Asset.fromJson(e))
-        .toList();
+    // List<Asset> assets = (data['data']['data'] as Iterable)
+    //     .map((e) => Asset.fromJson(e))
+    //     .toList();
 
-    return ApiReturnValue(value: assets);
+    return ApiReturnValue(value: mockAssets);
 
     //TODO: implement reply http request
   }

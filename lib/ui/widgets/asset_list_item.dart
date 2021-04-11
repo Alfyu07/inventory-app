@@ -15,7 +15,7 @@ class AssetListItem extends StatelessWidget {
           height: 60,
           margin: EdgeInsets.only(right: 12),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(6),
             image: DecorationImage(
                 image: NetworkImage(
                     "http://10.0.2.2:8000/storage/" + asset.picturePath),

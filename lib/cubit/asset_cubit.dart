@@ -7,7 +7,9 @@ import 'package:inventory_app/services/services.dart';
 part 'asset_state.dart';
 
 class AssetCubit extends Cubit<AssetState> {
-  AssetCubit() : super(AssetInitial());
+  AssetCubit() : super(AssetInitial()) {
+    getAssets();
+  }
 
   Future<void> getAssets({int page, int limit, String sort}) async {
     ApiReturnValue<List<Asset>> result =

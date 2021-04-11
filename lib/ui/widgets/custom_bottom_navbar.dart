@@ -14,7 +14,7 @@ class CustomBottomNavbar extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(6),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -28,15 +28,10 @@ class CustomBottomNavbar extends StatelessWidget {
             child: Container(
               width: 32,
               height: 32,
-              child: Stack(
-                children: [
-                  (selectedIndex == 0)
-                      ? SvgPicture.asset('assets/house.svg',
-                          width: 40, color: mainColor0)
-                      : SvgPicture.asset('assets/house.svg',
-                          width: 40, color: blackColor.withOpacity(0.3))
-                ],
-              ),
+              child: (selectedIndex == 0)
+                  ? Icon(Icons.home_rounded, color: mainColor1, size: 32)
+                  : Icon(Icons.home_rounded,
+                      color: blackColor.withOpacity(0.3), size: 32),
             ),
           ),
           GestureDetector(
@@ -46,24 +41,12 @@ class CustomBottomNavbar extends StatelessWidget {
               }
             },
             child: Container(
-              width: 32,
-              height: 32,
-              child: Stack(
-                children: [
-                  (selectedIndex == 1)
-                      ? SvgPicture.asset(
-                          'assets/plus.svg',
-                          width: 40,
-                          color: mainColor0,
-                        )
-                      : SvgPicture.asset(
-                          'assets/plus.svg',
-                          width: 40,
-                          color: blackColor.withOpacity(0.3),
-                        )
-                ],
-              ),
-            ),
+                width: 32,
+                height: 32,
+                child: (selectedIndex == 1)
+                    ? Icon(Icons.add_box_rounded, color: mainColor1, size: 32)
+                    : Icon(Icons.add_box_rounded,
+                        color: blackColor.withOpacity(0.3), size: 32)),
           ),
           GestureDetector(
             onTap: () {
@@ -74,23 +57,13 @@ class CustomBottomNavbar extends StatelessWidget {
             child: Container(
               width: 32,
               height: 32,
-              child: Stack(
-                children: [
-                  (selectedIndex == 2)
-                      ? SvgPicture.asset(
-                          'assets/qr_code_scanner-24px.svg',
-                          width: 40,
-                          color: mainColor0,
-                        )
-                      : SvgPicture.asset(
-                          'assets/qr_code_scanner-24px.svg',
-                          width: 40,
-                          color: blackColor.withOpacity(0.3),
-                        )
-                ],
-              ),
+              child: (selectedIndex == 2)
+                  ? Icon(Icons.qr_code_scanner_rounded,
+                      color: mainColor1, size: 32)
+                  : Icon(Icons.qr_code_scanner_rounded,
+                      color: blackColor.withOpacity(0.3), size: 32),
             ),
-          ),
+          )
         ],
       ),
     );

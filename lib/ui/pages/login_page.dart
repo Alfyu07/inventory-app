@@ -13,86 +13,77 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final bottom = MediaQuery.of(context).viewInsets.bottom;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SingleChildScrollView(
-        reverse: true,
-        physics: NeverScrollableScrollPhysics(),
-        child: Padding(
-            padding: EdgeInsets.only(bottom: bottom),
-            child:
-                // CONTENT HERE
-                Stack(children: [
-              Container(
-                width: size.width,
-                height: size.height,
-                padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomCenter,
-                    colors: [mainColor0, mainColor1],
-                  ),
+      body: Stack(
+        children: [
+          Container(
+            color: kBackgroundColor,
+          ),
+          SafeArea(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [mainColor0, mainColor1],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
               ),
-              Container(
-                  height: size.height * 0.3,
-                  width: size.width,
-                  alignment: Alignment.center,
-                  child: Stack(children: [
-                    SvgPicture.asset('assets/logo_inventory_app.svg')
-                  ])),
-              Positioned(
-                  top: size.height * 0.3,
-                  child: Center(
-                    child: Container(
+            ),
+          ),
+          SafeArea(
+            child: ListView(
+              children: [
+                Column(
+                  children: [
+                    Container(
+                        height: size.height * 0.3,
                         width: size.width,
-                        height: size.height,
+                        alignment: Alignment.center,
+                        child: Stack(children: [
+                          SvgPicture.asset('assets/logo_inventory_app.svg')
+                        ])),
+                    Center(
+                      child: Container(
+                        width: size.width,
                         padding:
                             EdgeInsets.symmetric(horizontal: defaultMargin),
                         decoration: BoxDecoration(
                           color: kBackgroundColor,
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(24),
+                              topRight: Radius.circular(24)),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              alignment: Alignment.center,
-                              width: size.width,
-                              margin:
-                                  EdgeInsets.fromLTRB(0, 50, 0, defaultMargin),
-                              child: Text(
-                                'SIGN IN',
-                                style: titleFontStyle0.copyWith(
-                                  fontSize: 28,
-                                  letterSpacing: 1.3,
-                                ),
-                              ),
-                            ),
+                            SizedBox(height: 2 * defaultMargin),
                             Text('Email', style: blackFontStyle0),
                             SizedBox(height: 10),
                             _buildEmailTF(),
                             SizedBox(height: 10),
-
                             Text('Password', style: blackFontStyle0),
                             SizedBox(height: 10),
                             _buildPasswordTF(),
                             _buildForgotPasswordBtn(),
                             SizedBox(height: 20),
-
                             //Button
                             isLoading
                                 ? SpinKitFadingCircle(
                                     size: 45,
                                     color: mainColor0,
                                   )
-                                : buildLoginBtn()
+                                : buildLoginBtn(),
+                            SizedBox(height: 100)
                           ],
-                        )),
-                  ))
-            ])),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -144,17 +135,11 @@ class _LoginPageState extends State<LoginPage> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                primary: mainColor0,
+                primary: mainColor1,
               ),
-              child: Text(
-                'Sign In',
-                style: GoogleFonts.poppins(
-                  fontSize: 20,
-                  color: Colors.white,
-                  letterSpacing: 1.5,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
+              child: Text('Sign In',
+                  style: blackFontStyle0.copyWith(
+                      color: Colors.white, fontWeight: FontWeight.w700)),
             ),
     );
   }
@@ -171,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
           'Forgot Password?',
           style: GoogleFonts.poppins(
             fontWeight: FontWeight.w500,
-            color: mainColor0,
+            color: mainColor1,
             fontSize: 14,
           ),
         ),
@@ -179,44 +164,53 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Container _buildEmailTF() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      width: double.infinity,
-      height: 50,
-      decoration: BoxDecoration(
-          border: Border.all(width: 3, color: greyColor1),
-          borderRadius: BorderRadius.circular(5)),
-      child: TextField(
-        style: blackFontStyle1.copyWith(height: 1.2),
-        controller: emailController,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          hintStyle: greyFontStyle.copyWith(fontSize: 16),
-          hintText: 'Enter your email',
+  Widget _buildEmailTF() {
+    return TextField(
+      style: blackFontStyle1,
+      controller: emailController,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        fillColor: Colors.white,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: BorderSide(color: mainColor1, width: 2.0),
         ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: BorderSide(color: greyColor0, width: 2.0),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: BorderSide(color: dangerColor, width: 2.0),
+        ),
+        hintStyle: greyFontStyle.copyWith(fontSize: 14),
+        hintText: 'Enter email',
       ),
     );
   }
 
-  Container _buildPasswordTF() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      width: double.infinity,
-      height: 50,
-      decoration: BoxDecoration(
-        border: Border.all(width: 3, color: greyColor1),
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: TextField(
-        style: blackFontStyle1.copyWith(height: 1.2),
-        controller: passwordController,
-        obscureText: true,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          hintStyle: greyFontStyle.copyWith(fontSize: 16),
-          hintText: 'Enter your password',
+  Widget _buildPasswordTF() {
+    return TextFormField(
+      style: blackFontStyle1,
+      controller: passwordController,
+      obscureText: true,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        fillColor: Colors.white,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: BorderSide(color: mainColor1, width: 2.0),
         ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: BorderSide(color: greyColor0, width: 2.0),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: BorderSide(color: dangerColor, width: 2.0),
+        ),
+        hintStyle: greyFontStyle.copyWith(fontSize: 14),
+        hintText: 'Enter password',
       ),
     );
   }

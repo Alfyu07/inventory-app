@@ -6,7 +6,6 @@ class AddAssetPage extends StatefulWidget {
 }
 
 class _AddAssetPageState extends State<AddAssetPage> {
-  //TODO: state management
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController locationController = TextEditingController();
@@ -53,7 +52,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
                       height: 200,
                       decoration: BoxDecoration(
                           color: lightGreyColor,
-                          borderRadius: BorderRadius.circular(8)),
+                          borderRadius: BorderRadius.circular(6)),
                     ),
                     Container(
                       width: 60,
@@ -83,7 +82,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
                       height: 200,
                       decoration: BoxDecoration(
                         color: lightGreyColor,
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(6),
                         image: DecorationImage(
                           image: FileImage(_imageFile),
                         ),
@@ -105,7 +104,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
                   hint: 'Masukkan nama barang',
                   contentPadding: EdgeInsets.only(bottom: 10.0)),
 
-              //Harga Pembelian
+              //Harga Pe_buildPopupDialogmbelian
               Text('Harga barang', style: blackFontStyle0),
               buildTextField(
                 controller: priceController,
@@ -161,7 +160,9 @@ class _AddAssetPageState extends State<AddAssetPage> {
                 height: 80.0,
               ),
               (isLoading)
-                  ? loadingIndicator
+                  ? Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Center(child: loadingIndicator))
                   : Container(
                       width: double.infinity,
                       height: 45,
@@ -197,7 +198,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
                               icon: Icon(Icons.close_outlined,
                                   color: Colors.white),
                               titleText: Text(
-                                'Sign In Failed',
+                                'Please try again',
                                 style: GoogleFonts.poppins(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600),
@@ -216,18 +217,14 @@ class _AddAssetPageState extends State<AddAssetPage> {
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(6),
                           ),
-                          primary: mainColor0,
+                          primary: mainColor1,
                         ),
-                        child: Text(
-                          'Tambahkan',
-                          style: GoogleFonts.poppins(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                        child: Text('Tambahkan',
+                            style: blackFontStyle0.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500)),
                       ),
                     )
             ],

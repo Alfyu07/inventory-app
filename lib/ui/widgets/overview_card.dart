@@ -14,15 +14,15 @@ class OverviewCard extends StatelessWidget {
       children: [
         Card(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(12),
           ),
           child: Container(
             width: MediaQuery.of(context).size.width * 0.4,
-            height: 150,
+            height: 120,
             padding: EdgeInsets.symmetric(
                 horizontal: defaultMargin, vertical: defaultMargin),
             decoration: BoxDecoration(
-                color: mainColor0, borderRadius: BorderRadius.circular(20)),
+                color: mainColor0, borderRadius: BorderRadius.circular(12)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -33,7 +33,7 @@ class OverviewCard extends StatelessWidget {
                 ),
                 Text(jumlahAsset.toString(),
                     style:
-                        GoogleFonts.poppins(fontSize: 35, color: Colors.white)),
+                        GoogleFonts.poppins(fontSize: 24, color: Colors.white)),
                 Text(
                   'Jumlah Asset',
                   style: GoogleFonts.poppins(
@@ -48,16 +48,16 @@ class OverviewCard extends StatelessWidget {
         ),
         Card(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(12),
           ),
           child: Container(
             margin: EdgeInsets.only(),
             width: MediaQuery.of(context).size.width * 0.4,
-            height: 150,
+            height: 120,
             padding: EdgeInsets.symmetric(
                 horizontal: defaultMargin, vertical: defaultMargin),
             decoration: BoxDecoration(
-                color: mainColor1, borderRadius: BorderRadius.circular(20)),
+                color: mainColor1, borderRadius: BorderRadius.circular(12)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -68,7 +68,7 @@ class OverviewCard extends StatelessWidget {
                 ),
                 Text(barangBaru.toString(),
                     style:
-                        GoogleFonts.poppins(fontSize: 35, color: Colors.white)),
+                        GoogleFonts.poppins(fontSize: 24, color: Colors.white)),
                 Text(
                   'Barang Baru',
                   style: GoogleFonts.poppins(fontSize: 14, color: Colors.white),

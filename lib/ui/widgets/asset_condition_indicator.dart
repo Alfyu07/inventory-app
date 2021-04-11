@@ -13,40 +13,42 @@ class AssetConditionIndicator extends StatelessWidget {
           ? Row(
               children: [
                 Container(
-                    width: 20,
-                    height: 20,
+                    width: 28,
+                    height: 28,
                     child: Stack(
                       children: [
                         SvgPicture.asset(
-                          'assets/up_arrow_in_circle.svg',
-                          color: successColor,
+                          'assets/arrow-up-circle.svg',
+                          width: 28,
+                          color: mainColor2,
                         )
                       ],
                     )),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text('Bagus',
-                      style: blackFontStyle2.copyWith(color: successColor)),
+                      style: blackFontStyle2.copyWith(color: mainColor2)),
                 ),
               ],
             )
           : Row(
               children: [
                 Container(
-                    width: 20,
-                    height: 20,
+                    width: 28,
+                    height: 28,
                     child: Stack(
                       children: [
                         SvgPicture.asset(
-                          'assets/down_arrow_in_circle.svg',
-                          color: dangerColor,
+                          'assets/arrow-down-circle.svg',
+                          width: 28,
+                          color: greyColor1,
                         )
                       ],
                     )),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text('Rusak',
-                      style: blackFontStyle2.copyWith(color: dangerColor)),
+                      style: blackFontStyle2.copyWith(color: greyColor1)),
                 )
               ],
             ),

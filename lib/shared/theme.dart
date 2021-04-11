@@ -4,32 +4,33 @@ const double defaultMargin = 20;
 
 Color mainColor0 = "0080F6".toColor();
 Color mainColor1 = "2998FF".toColor();
+Color mainColor2 = "5CB1FF".toColor();
 
 Color kBackgroundColor = "F5FAFF".toColor();
 Color blackColor = "001B33".toColor();
 Color successColor = "64BC26".toColor();
 Color dangerColor = "EA1601".toColor();
 
-Color greyColor0 = "001B33".toColor().withOpacity(0.6);
-Color greyColor1 = "001B33".toColor().withOpacity(0.3);
+Color greyColor0 = "001B33".toColor().withOpacity(0.7);
+Color greyColor1 = "001B33".toColor().withOpacity(0.5);
 Color lightGreyColor = "EBECF1".toColor();
 
 TextStyle titleFontStyle0 = GoogleFonts.poppins().copyWith(
     color: blackColor,
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: FontWeight.w700,
     letterSpacing: -0.3);
 TextStyle titleFontStyle1 = GoogleFonts.poppins().copyWith(
     color: blackColor,
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: FontWeight.w700,
     letterSpacing: -0.3);
 TextStyle blackFontStyle0 = GoogleFonts.poppins()
-    .copyWith(color: blackColor, fontSize: 18, fontWeight: FontWeight.w400);
-TextStyle blackFontStyle1 = GoogleFonts.poppins()
     .copyWith(color: blackColor, fontSize: 16, fontWeight: FontWeight.w400);
-TextStyle blackFontStyle2 = GoogleFonts.poppins()
+TextStyle blackFontStyle1 = GoogleFonts.poppins()
     .copyWith(color: blackColor, fontSize: 14, fontWeight: FontWeight.w400);
+TextStyle blackFontStyle2 = GoogleFonts.poppins()
+    .copyWith(color: blackColor, fontSize: 12, fontWeight: FontWeight.w400);
 
 TextStyle whiteLabelStyle = GoogleFonts.poppins(color: Colors.white);
 

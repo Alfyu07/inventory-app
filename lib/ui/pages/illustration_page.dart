@@ -45,7 +45,7 @@ class IllustrationPage extends StatelessWidget {
                 primary: mainColor0,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
+                    borderRadius: BorderRadius.circular(6)),
               ),
               child: Text(
                 buttonTitle1,
@@ -67,7 +67,7 @@ class IllustrationPage extends StatelessWidget {
                       primary: '8D92A3'.toColor(),
                       elevation: 0,
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
+                          borderRadius: BorderRadius.circular(6)),
                     ),
                     child: Text(
                       buttonTitle2 ?? 'title',
