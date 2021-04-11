@@ -13,7 +13,7 @@ class AddAssetSuccessPage extends StatelessWidget {
         title: 'Request Berhasil!',
         subtitle: 'Barang berhasil ditambahkan',
         buttonTap1: () {
-          Get.to(DetailPage());
+          Get.to(DetailPage(asset: asset));
         },
         buttonTitle1: 'Lihat detail barang',
         picturePath: 'assets/done.png',

@@ -25,12 +25,12 @@ TextStyle titleFontStyle1 = GoogleFonts.poppins().copyWith(
     fontSize: 18,
     fontWeight: FontWeight.w700,
     letterSpacing: -0.3);
-TextStyle blackFontStyle0 = GoogleFonts.poppins()
-    .copyWith(color: blackColor, fontSize: 16, fontWeight: FontWeight.w400);
-TextStyle blackFontStyle1 = GoogleFonts.poppins()
-    .copyWith(color: blackColor, fontSize: 14, fontWeight: FontWeight.w400);
-TextStyle blackFontStyle2 = GoogleFonts.poppins()
-    .copyWith(color: blackColor, fontSize: 12, fontWeight: FontWeight.w400);
+TextStyle blackFontStyle0 =
+    GoogleFonts.poppins().copyWith(color: blackColor, fontSize: 16);
+TextStyle blackFontStyle1 =
+    GoogleFonts.poppins().copyWith(color: blackColor, fontSize: 14);
+TextStyle blackFontStyle2 =
+    GoogleFonts.poppins().copyWith(color: blackColor, fontSize: 12);
 
 TextStyle whiteLabelStyle = GoogleFonts.poppins(color: Colors.white);
 

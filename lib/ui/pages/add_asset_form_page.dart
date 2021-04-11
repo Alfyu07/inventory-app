@@ -212,7 +212,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
                               isLoading = false;
                             });
                           }
-                          Get.to(AddAssetSuccessPage(asset: asset));
+                          Get.to(() => AddAssetSuccessPage(asset: asset));
                         },
                         style: ElevatedButton.styleFrom(
                           elevation: 0,

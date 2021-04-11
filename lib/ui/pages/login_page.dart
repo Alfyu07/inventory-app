@@ -6,9 +6,20 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
   bool isLoading = false;
+
+  String _email, _password;
+
+  final _formKey = GlobalKey<FormState>();
+
+  FocusNode _emailFocusNode = FocusNode();
+  FocusNode _passwordFocusNode = FocusNode();
+
+  void fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Stack(
         children: [
           Container(
-            color: kBackgroundColor,
+            color: mainColor1,
           ),
           SafeArea(
             child: Container(
@@ -45,6 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                     Center(
                       child: Container(
                         width: size.width,
+                        height: size.height * 0.8,
                         padding:
                             EdgeInsets.symmetric(horizontal: defaultMargin),
                         decoration: BoxDecoration(
@@ -53,28 +65,31 @@ class _LoginPageState extends State<LoginPage> {
                               topLeft: Radius.circular(24),
                               topRight: Radius.circular(24)),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 2 * defaultMargin),
-                            Text('Email', style: blackFontStyle0),
-                            SizedBox(height: 10),
-                            _buildEmailTF(),
-                            SizedBox(height: 10),
-                            Text('Password', style: blackFontStyle0),
-                            SizedBox(height: 10),
-                            _buildPasswordTF(),
-                            _buildForgotPasswordBtn(),
-                            SizedBox(height: 20),
-                            //Button
-                            isLoading
-                                ? SpinKitFadingCircle(
-                                    size: 45,
-                                    color: mainColor0,
-                                  )
-                                : buildLoginBtn(),
-                            SizedBox(height: 100)
-                          ],
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 2 * defaultMargin),
+                              Text('Email', style: blackFontStyle0),
+                              SizedBox(height: 10),
+                              _buildEmailTF(),
+                              SizedBox(height: 10),
+                              Text('Password', style: blackFontStyle0),
+                              SizedBox(height: 10),
+                              _buildPasswordTF(),
+                              _buildForgotPasswordBtn(),
+                              SizedBox(height: 20),
+                              //Button
+                              isLoading
+                                  ? SpinKitFadingCircle(
+                                      size: 45,
+                                      color: mainColor0,
+                                    )
+                                  : buildLoginBtn(),
+                              SizedBox(height: 100)
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -96,19 +111,23 @@ class _LoginPageState extends State<LoginPage> {
           ? loadingIndicator
           : ElevatedButton(
               onPressed: () async {
+                if (!_formKey.currentState.validate()) {
+                  return;
+                }
+
+                _formKey.currentState.save();
+
                 setState(() {
                   isLoading = true;
                 });
 
-                await context
-                    .read<UserCubit>()
-                    .signIn(emailController.text, passwordController.text);
+                await context.read<UserCubit>().signIn(_email, _password);
 
                 UserState state = context.read<UserCubit>().state;
 
                 if (state is UserLoaded) {
                   context.read<AssetCubit>().getAssets();
-                  Get.off(MainPage());
+                  Get.off(() => MainPage());
                 } else if (state is UserLoadingFailed) {
                   Get.snackbar(
                     "",
@@ -165,9 +184,22 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildEmailTF() {
-    return TextField(
-      style: blackFontStyle1,
-      controller: emailController,
+    return TextFormField(
+      style: blackFontStyle1.copyWith(height: 1.4),
+      focusNode: _emailFocusNode,
+      autofocus: true,
+      keyboardType: TextInputType.emailAddress,
+      textInputAction: TextInputAction.next,
+      validator: (email) {
+        if (!EmailValidator.validate(email)) {
+          return "Invalid email address";
+        }
+        return null;
+      },
+      onSaved: (email) => _email = email,
+      onFieldSubmitted: (_) {
+        fieldFocusChange(context, _emailFocusNode, _passwordFocusNode);
+      },
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         fillColor: Colors.white,
@@ -178,6 +210,10 @@ class _LoginPageState extends State<LoginPage> {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(6),
           borderSide: BorderSide(color: greyColor0, width: 2.0),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: BorderSide(color: dangerColor, width: 2.0),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(6),
@@ -191,9 +227,18 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildPasswordTF() {
     return TextFormField(
-      style: blackFontStyle1,
-      controller: passwordController,
+      style: blackFontStyle1.copyWith(height: 1.4),
+      focusNode: _passwordFocusNode,
+      keyboardType: TextInputType.text,
       obscureText: true,
+      textInputAction: TextInputAction.done,
+      validator: (password) {
+        if (password == null || password.isEmpty) {
+          return "Password can't be empty";
+        }
+        return null;
+      },
+      onSaved: (password) => _password = password,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         fillColor: Colors.white,
@@ -204,6 +249,10 @@ class _LoginPageState extends State<LoginPage> {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(6),
           borderSide: BorderSide(color: greyColor0, width: 2.0),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: BorderSide(color: dangerColor, width: 2.0),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(6),

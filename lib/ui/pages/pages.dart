@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,4 +34,3 @@ part 'detail_page.dart';
 part 'illustration_page.dart';
 part 'success_add_asset_page.dart';
 part 'error_404.dart';
-part 'edit_item.dart';

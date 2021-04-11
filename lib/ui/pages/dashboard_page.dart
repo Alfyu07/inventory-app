@@ -18,6 +18,7 @@ class _DashboardPageState extends State<DashboardPage> {
     scrollController = ScrollController();
     page = 1;
     isLoading = false;
+    context.read<AssetCubit>().getAssets();
   }
 
   @override
@@ -194,6 +195,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                 Get.to(() => DetailPage(asset: e));
                               },
                               child: Container(
+                                margin: EdgeInsets.only(bottom: 10),
                                 padding: EdgeInsets.only(
                                     bottom: 3,
                                     left: defaultMargin,

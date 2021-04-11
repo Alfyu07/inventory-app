@@ -3,14 +3,9 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-            <!-- <gradient
-                android:type="linear"
-                android:angle="0"
-                android:startColor="#f6ee19"
-                android:endColor="#115ede" /> -->
-            <solid androi:color="2998FF"/>
+            <solid android:color="#2998FF"/>
         </shape>
-    </item>
+    </item> 
     <!-- You can insert your own image assets here -->
     <item>
         <bitmap
