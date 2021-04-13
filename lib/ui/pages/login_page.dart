@@ -127,9 +127,9 @@ class _LoginPageState extends State<LoginPage> {
 
                 if (state is UserLoaded) {
                   context.read<AssetCubit>().getAssets();
-                  Get.off(() => MainPage());
+                  getx.Get.off(() => MainPage());
                 } else if (state is UserLoadingFailed) {
-                  Get.snackbar(
+                  getx.Get.snackbar(
                     "",
                     state.message,
                     backgroundColor: 'D9435E'.toColor(),

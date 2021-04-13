@@ -18,20 +18,26 @@ class DetailPage extends StatelessWidget {
               leading: IconButton(
                 onPressed: () async {
                   context.read<AssetCubit>().getAssets();
-                  Get.off(MainPage());
+                  getx.Get.off(() => MainPage());
                 },
                 icon: Icon(Icons.arrow_back, color: Colors.white),
               ),
               actions: [
-                Container(
-                  margin: EdgeInsets.only(top: 18, right: 18),
-                  height: 24,
-                  width: 24,
-                  child: Stack(
-                    children: [
-                      SvgPicture.asset('assets/qr_code_scanner-24px.svg',
-                          color: Colors.white)
-                    ],
+                GestureDetector(
+                  onTap: () {
+                    getx.Get.to(() => QRPage(asset.hash),
+                        transition: getx.Transition.downToUp);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(top: 18, right: 18),
+                    height: 24,
+                    width: 24,
+                    child: Stack(
+                      children: [
+                        SvgPicture.asset('assets/qr_code_scanner-24px.svg',
+                            color: Colors.white)
+                      ],
+                    ),
                   ),
                 )
               ],
@@ -256,7 +262,8 @@ class DetailPage extends StatelessWidget {
                                 height: 40,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    Get.to(() => EditAssetPage(asset: asset));
+                                    getx.Get.to(
+                                        () => EditAssetPage(asset: asset));
                                   },
                                   child: Text('Edit',
                                       style: blackFontStyle0.copyWith(
@@ -304,10 +311,10 @@ class DetailPage extends StatelessWidget {
               Navigator.of(context).pop();
 
               await context.read<AssetCubit>().getAssets();
-              Get.off(MainPage());
+              getx.Get.off(MainPage());
             } else if (state is AssetLoadingFailed) {
               Navigator.of(context).pop();
-              Get.snackbar(
+              getx.Get.snackbar(
                 "",
                 "",
                 backgroundColor: 'D9435E'.toColor(),

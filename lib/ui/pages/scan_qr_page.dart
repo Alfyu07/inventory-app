@@ -44,9 +44,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
                     height: 45,
                     child: ElevatedButton(
                       onPressed: () async {
-                        if (result == null) {
-                          scanQRcode();
-                        }
+                        scanQRCode();
                       },
                       style: ElevatedButton.styleFrom(
                         elevation: 0,
@@ -75,7 +73,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
     );
   }
 
-  Future<void> scanQRcode() async {
+  Future<void> scanQRCode() async {
     try {
       await Permission.camera.request();
       String qrResult = await scanner.scan();

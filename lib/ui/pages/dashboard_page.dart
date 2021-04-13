@@ -18,7 +18,6 @@ class _DashboardPageState extends State<DashboardPage> {
     scrollController = ScrollController();
     page = 1;
     isLoading = false;
-    context.read<AssetCubit>().getAssets();
   }
 
   @override
@@ -30,7 +29,7 @@ class _DashboardPageState extends State<DashboardPage> {
     });
     final size = MediaQuery.of(context).size;
     final double assetListWidth = size.width - 2 * defaultMargin;
-    return ListView(children: [
+    return ListView(physics: BouncingScrollPhysics(), children: [
       Column(children: [
         //* HEADER
         Container(
@@ -50,7 +49,7 @@ class _DashboardPageState extends State<DashboardPage> {
                           context: context,
                           delegate: BarangSearch(),
                         );
-                        Get.to(DetailPage());
+                        getx.Get.to(() => DetailPage());
                       },
                       child: Container(
                         width: 24,
@@ -157,7 +156,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     if (state is AssetLoaded) {
                       setState(() {});
                     } else if (state is AssetLoadingFailed) {
-                      Get.snackbar(
+                      getx.Get.snackbar(
                         "",
                         state.message,
                         backgroundColor: 'D9435E'.toColor(),
@@ -187,7 +186,7 @@ class _DashboardPageState extends State<DashboardPage> {
                           .map(
                             (e) => GestureDetector(
                               onTap: () {
-                                Get.to(() => DetailPage(asset: e));
+                                getx.Get.to(() => DetailPage(asset: e));
                               },
                               child: Container(
                                 margin: EdgeInsets.only(bottom: 10),
