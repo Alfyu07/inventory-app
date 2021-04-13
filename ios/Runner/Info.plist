@@ -44,5 +44,6 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<!-- <string>$(PRODUCT_NAME)photos description.</string> -->
 </dict>
 </plist>

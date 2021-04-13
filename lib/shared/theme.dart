@@ -40,5 +40,5 @@ TextStyle greyFontStyle = GoogleFonts.poppins(fontSize: 14, color: greyColor1);
 
 Widget loadingIndicator = SpinKitFadingCircle(
   size: 45,
-  color: mainColor0,
+  color: mainColor1,
 );

@@ -10,6 +10,7 @@ class Asset extends Equatable {
   final String purchaseDate;
   final String qrCode;
   final String location;
+  final String hash;
 
   Asset({
     this.id,
@@ -21,6 +22,7 @@ class Asset extends Equatable {
     this.purchaseDate,
     this.qrCode,
     this.location,
+    this.hash,
   });
   String getPurchaseDate() {
     var token = purchaseDate.split('-');
@@ -37,6 +39,7 @@ class Asset extends Equatable {
     String qrCode,
     String location,
     String picturePath,
+    String hash,
   }) {
     return Asset(
       id: id ?? this.id,
@@ -48,6 +51,7 @@ class Asset extends Equatable {
       qrCode: qrCode ?? this.qrCode,
       location: location ?? this.location,
       picturePath: picturePath ?? this.picturePath,
+      hash: hash ?? this.hash,
     );
   }
 
@@ -60,6 +64,7 @@ class Asset extends Equatable {
         purchaseDate: data['purchase_date'],
         location: data['location'],
         picturePath: data['picture_path'],
+        hash: data['hash'],
       );
   @override
   List<Object> get props => [
@@ -71,23 +76,25 @@ class Asset extends Equatable {
         price,
         purchaseDate,
         qrCode,
-        location
+        location,
+        hash,
       ];
 }
 
 List<Asset> mockAssets = [
   Asset(
-    id: 1,
-    picturePath:
-        'https://images.unsplash.com/photo-1561948955-570b270e7c36?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=259&q=80',
-    name: 'Kucing Rumahan',
-    description:
-        'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
-    condition: 'bagus',
-    purchaseDate: "2020-12-31",
-    price: 2000000,
-    location: 'Gudang',
-  ),
+      id: 1,
+      picturePath:
+          'https://images.unsplash.com/photo-1561948955-570b270e7c36?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=259&q=80',
+      name: 'Kucing Rumahan',
+      description:
+          'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
+      condition: 'Bagus',
+      purchaseDate: "2020-12-31",
+      price: 2000000,
+      location: 'Gudang',
+      hash:
+          "\$5\$zQUCjEzs9jnrRdCK\$dbo1i9WjQjbUwOC4JCRAZHpfd31Dh676vI0L6w0dZw1"),
   Asset(
     id: 2,
     picturePath:
@@ -95,7 +102,7 @@ List<Asset> mockAssets = [
     name: 'Kucing Kampungan',
     description:
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
-    condition: 'bagus',
+    condition: 'Bagus',
     purchaseDate: "2020-12-31",
     price: 2000000,
     location: 'Gudang',
@@ -107,7 +114,7 @@ List<Asset> mockAssets = [
       name: 'Kucing Kotaan',
       description:
           'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
-      condition: 'bagus',
+      condition: 'Bagus',
       price: 2000000,
       purchaseDate: "2020-12-31",
       location: 'Gudang'),
@@ -118,7 +125,7 @@ List<Asset> mockAssets = [
     name: 'Kucing Negara',
     description:
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
-    condition: 'rusak',
+    condition: 'Rusak',
     purchaseDate: "2020-12-31",
     price: 2000000,
     location: 'Gudang',
@@ -130,7 +137,7 @@ List<Asset> mockAssets = [
     name: 'Kucing Benua',
     description:
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
-    condition: 'rusak',
+    condition: 'Rusak',
     purchaseDate: "2020-12-31",
     price: 2000000,
     location: 'Gudang',
@@ -142,7 +149,7 @@ List<Asset> mockAssets = [
     name: 'Kucing Dunia',
     description:
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
-    condition: 'rusak',
+    condition: 'Rusak',
     purchaseDate: "2020-12-31",
     price: 2000000,
     location: 'Gudang',
@@ -154,7 +161,7 @@ List<Asset> mockAssets = [
     name: 'Kucing Akhirat',
     description:
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
-    condition: 'bagus',
+    condition: 'Bagus',
     purchaseDate: "2020-12-31",
     price: 2000000,
     location: 'Gudang',
@@ -166,7 +173,7 @@ List<Asset> mockAssets = [
     name: 'Kucing Langit',
     description:
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
-    condition: 'bagus',
+    condition: 'Bagus',
     purchaseDate: "2020-12-31",
     price: 2000000,
     location: 'Kantor',
@@ -178,7 +185,7 @@ List<Asset> mockAssets = [
     name: 'Kucing Neraka',
     description:
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
-    condition: 'bagus',
+    condition: 'Bagus',
     purchaseDate: "2020-12-31",
     price: 2000000,
     location: 'Gudang',
@@ -190,7 +197,67 @@ List<Asset> mockAssets = [
     name: 'Kucing Surga',
     description:
         'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
-    condition: 'bagus',
+    condition: 'Bagus',
+    purchaseDate: "2020-12-31",
+    price: 2000000,
+    location: 'Gudang',
+  ),
+  Asset(
+    id: 11,
+    picturePath:
+        'https://images.unsplash.com/photo-1561948955-570b270e7c36?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=259&q=80',
+    name: 'Kucing Rumahan',
+    description:
+        'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
+    condition: 'Bagus',
+    purchaseDate: "2020-12-31",
+    price: 2000000,
+    location: 'Gudang',
+  ),
+  Asset(
+    id: 12,
+    picturePath:
+        'https://images.unsplash.com/photo-1561948955-570b270e7c36?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=259&q=80',
+    name: 'Kucing Rumahan',
+    description:
+        'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
+    condition: 'Bagus',
+    purchaseDate: "2020-12-31",
+    price: 2000000,
+    location: 'Gudang',
+  ),
+  Asset(
+    id: 13,
+    picturePath:
+        'https://images.unsplash.com/photo-1561948955-570b270e7c36?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=259&q=80',
+    name: 'Kucing Rumahan',
+    description:
+        'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
+    condition: 'Bagus',
+    purchaseDate: "2020-12-31",
+    price: 2000000,
+    location: 'Gudang',
+  ),
+  Asset(
+    id: 14,
+    picturePath:
+        'https://images.unsplash.com/photo-1561948955-570b270e7c36?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=259&q=80',
+    name: 'Kucing Rumahan',
+    description:
+        'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
+    condition: 'Bagus',
+    purchaseDate: "2020-12-31",
+    price: 2000000,
+    location: 'Gudang',
+  ),
+  Asset(
+    id: 15,
+    picturePath:
+        'https://images.unsplash.com/photo-1561948955-570b270e7c36?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=259&q=80',
+    name: 'Kucing Rumahan',
+    description:
+        'Kucing ini dibeli untuk keperluan pelatihan bahasa kucing rumah bahasa',
+    condition: 'Bagus',
     purchaseDate: "2020-12-31",
     price: 2000000,
     location: 'Gudang',

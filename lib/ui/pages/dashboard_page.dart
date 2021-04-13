@@ -26,12 +26,7 @@ class _DashboardPageState extends State<DashboardPage> {
     scrollController.addListener(() {
       double maxScroll = scrollController.position.maxScrollExtent;
       double currentScroll = scrollController.position.pixels;
-      if (currentScroll == maxScroll) {
-        page += 1;
-        context
-            .read<AssetCubit>()
-            .getAssets(page: page, sort: sortBy, limit: 10);
-      }
+      if (currentScroll == maxScroll) {}
     });
     final size = MediaQuery.of(context).size;
     final double assetListWidth = size.width - 2 * defaultMargin;
@@ -208,44 +203,8 @@ class _DashboardPageState extends State<DashboardPage> {
                           .toList(),
                     )
                   : Center(child: loadingIndicator)),
-
-          // BlocBuilder<AssetCubit, AssetState>(
-          //     builder: (context, state) => (state is AssetLoaded)
-          //         ? ListView.builder(
-          //             controller: scrollController,
-          //             itemCount: (state.hasReachedMax == true)
-          //                 ? state.assets.length
-          //                 : state.assets.length + 1,
-          //             itemBuilder: (context, index) =>
-          //                 (index < state.assets.length)
-          //                     ? GestureDetector(
-          //                         onTap: () async {
-          //                           await context
-          //                               .read<AssetCubit>()
-          //                               .getAssetById(state.assets[index].id);
-          //                           Get.to(
-          //                             DetailPage(),
-          //                           );
-          //                         },
-          //                         child: Container(
-          //                           padding: EdgeInsets.only(
-          //                               bottom: 3,
-          //                               left: defaultMargin,
-          //                               right: defaultMargin),
-          //                           child: AssetListItem(
-          //                               itemWidth: assetListWidth,
-          //                               asset: state.assets[index]),
-          //                         ))
-          //                     : Container(
-          //                         child: Center(
-          //                           child: SizedBox(
-          //                             child: CircularProgressIndicator(),
-          //                           ),
-          //                         ),
-          //                       ),
-          //           )
-          //         : Center(child: loadingIndicator)),
-        )
+        ),
+        SizedBox(height: 100)
       ])
     ]);
   }

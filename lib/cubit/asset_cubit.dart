@@ -43,6 +43,17 @@ class AssetCubit extends Cubit<AssetState> {
     }
   }
 
+  Future<void> editAsset(Asset asset, File imageFile) async {
+    ApiReturnValue<Asset> result =
+        await AssetServices.editAsset(asset, imageFile);
+
+    if (result.value != null) {
+      emit(SingleAssetLoaded(result.value));
+    } else {
+      emit(AssetLoadingFailed(result.message));
+    }
+  }
+
   Future<void> delete(int id) async {
     ApiReturnValue<String> result = await AssetServices.delete(id);
 

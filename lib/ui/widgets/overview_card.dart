@@ -18,13 +18,14 @@ class OverviewCard extends StatelessWidget {
           ),
           child: Container(
             width: MediaQuery.of(context).size.width * 0.4,
-            height: 120,
+            height: 136,
             padding: EdgeInsets.symmetric(
                 horizontal: defaultMargin, vertical: defaultMargin),
             decoration: BoxDecoration(
                 color: mainColor0, borderRadius: BorderRadius.circular(12)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 SvgPicture.asset(
                   'assets/chart-pie-slice-fill.svg',
@@ -36,10 +37,7 @@ class OverviewCard extends StatelessWidget {
                         GoogleFonts.poppins(fontSize: 24, color: Colors.white)),
                 Text(
                   'Jumlah Asset',
-                  style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    color: Colors.white,
-                  ),
+                  style: blackFontStyle1.copyWith(color: Colors.white),
                   overflow: TextOverflow.clip,
                 )
               ],
@@ -53,13 +51,14 @@ class OverviewCard extends StatelessWidget {
           child: Container(
             margin: EdgeInsets.only(),
             width: MediaQuery.of(context).size.width * 0.4,
-            height: 120,
+            height: 136,
             padding: EdgeInsets.symmetric(
                 horizontal: defaultMargin, vertical: defaultMargin),
             decoration: BoxDecoration(
                 color: mainColor1, borderRadius: BorderRadius.circular(12)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 SvgPicture.asset(
                   'assets/chart-pie-slice-fill.svg',

@@ -13,7 +13,6 @@ class DetailPage extends StatelessWidget {
         child: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
-              title: Text('Detail barang'),
               backgroundColor: mainColor0,
               expandedHeight: 300.0,
               leading: IconButton(
@@ -256,7 +255,9 @@ class DetailPage extends StatelessWidget {
                                 width: MediaQuery.of(context).size.width * 0.4,
                                 height: 40,
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Get.to(() => EditAssetPage(asset: asset));
+                                  },
                                   child: Text('Edit',
                                       style: blackFontStyle0.copyWith(
                                         color: Colors.white,

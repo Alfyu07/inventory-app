@@ -1,6 +1,10 @@
 part of 'pages.dart';
 
 class EditAssetPage extends StatefulWidget {
+  final Asset asset;
+
+  const EditAssetPage({Key key, this.asset}) : super(key: key);
+
   @override
   _EditAssetPageState createState() => _EditAssetPageState();
 }
@@ -14,8 +18,26 @@ class _EditAssetPageState extends State<EditAssetPage> {
   bool isLoading = false;
   DateTime purchaseDate = DateTime.now();
   File _imageFile;
-  Asset asset;
   var kondisi = ['Bagus', 'Rusak'];
+
+  @override
+  void initState() {
+    super.initState();
+    nameController.text = widget.asset.name;
+    priceController.text = widget.asset.price.toString();
+    locationController.text = widget.asset.location;
+    descriptionController.text = widget.asset.description;
+    // _condition = widget.asset.condition;
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    priceController.dispose();
+    locationController.dispose();
+    descriptionController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +51,7 @@ class _EditAssetPageState extends State<EditAssetPage> {
               alignment: Alignment.centerLeft,
               height: size.height * 0.1,
               child: Text(
-                'Tambah Barang',
+                'Perbarui Barang',
                 style: titleFontStyle0,
               ),
             ),
@@ -52,14 +74,11 @@ class _EditAssetPageState extends State<EditAssetPage> {
                         width: double.infinity,
                         height: 200,
                         decoration: BoxDecoration(
-                            color: lightGreyColor,
-                            borderRadius: BorderRadius.circular(6)),
-                      ),
-                      Container(
-                        width: 60,
-                        height: 60,
-                        child: Stack(
-                          children: [SvgPicture.asset('assets/photo.svg')],
+                          color: lightGreyColor,
+                          borderRadius: BorderRadius.circular(6),
+                          image: DecorationImage(
+                            image: new NetworkImage(widget.asset.picturePath),
+                          ),
                         ),
                       ),
                     ],
@@ -85,7 +104,7 @@ class _EditAssetPageState extends State<EditAssetPage> {
                           color: lightGreyColor,
                           borderRadius: BorderRadius.circular(6),
                           image: DecorationImage(
-                            image: FileImage(_imageFile),
+                            image: new FileImage(_imageFile),
                           ),
                         ),
                       ),
@@ -170,7 +189,7 @@ class _EditAssetPageState extends State<EditAssetPage> {
                         margin: EdgeInsets.only(top: 20),
                         child: ElevatedButton(
                           onPressed: () async {
-                            asset = Asset(
+                            widget.asset.copyWith(
                               name: nameController.text,
                               condition: _condition,
                               description: descriptionController.text,
@@ -185,12 +204,12 @@ class _EditAssetPageState extends State<EditAssetPage> {
 
                             await context
                                 .read<AssetCubit>()
-                                .addAsset(asset, _imageFile);
+                                .editAsset(widget.asset, _imageFile);
 
                             AssetState state = context.read<AssetCubit>().state;
 
                             if (state is SingleAssetLoaded) {
-                              asset = state.asset;
+                              Get.to(AddAssetSuccessPage(asset: state.asset));
                             } else if (state is AssetLoadingFailed) {
                               Get.snackbar(
                                 "",
@@ -214,7 +233,6 @@ class _EditAssetPageState extends State<EditAssetPage> {
                                 isLoading = false;
                               });
                             }
-                            Get.to(AddAssetSuccessPage(asset: asset));
                           },
                           style: ElevatedButton.styleFrom(
                             elevation: 0,
@@ -223,7 +241,7 @@ class _EditAssetPageState extends State<EditAssetPage> {
                             ),
                             primary: mainColor1,
                           ),
-                          child: Text('Tambahkan',
+                          child: Text('Perbarui',
                               style: blackFontStyle0.copyWith(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w500)),
@@ -284,6 +302,7 @@ class _EditAssetPageState extends State<EditAssetPage> {
       height: 40,
       decoration: BoxDecoration(
         border: Border.all(width: 1, color: greyColor1),
+        borderRadius: BorderRadius.circular(3),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
@@ -317,6 +336,7 @@ class _EditAssetPageState extends State<EditAssetPage> {
       height: height,
       decoration: BoxDecoration(
         border: Border.all(width: 1, color: greyColor1),
+        borderRadius: BorderRadius.circular(3),
       ),
       child: TextField(
         style: blackFontStyle2,

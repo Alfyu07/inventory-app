@@ -281,6 +281,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
       height: 40,
       decoration: BoxDecoration(
         border: Border.all(width: 1, color: greyColor1),
+        borderRadius: BorderRadius.circular(3),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
@@ -314,6 +315,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
       height: height,
       decoration: BoxDecoration(
         border: Border.all(width: 1, color: greyColor1),
+        borderRadius: BorderRadius.circular(3),
       ),
       child: TextField(
         style: blackFontStyle2,
