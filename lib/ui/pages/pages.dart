@@ -46,4 +46,4 @@ part 'detail_page.dart';
 part 'illustration_page.dart';
 part 'success_add_asset_page.dart';
 part 'error_404.dart';
-part 'qr_pages.dart';
+part 'qr_page.dart';

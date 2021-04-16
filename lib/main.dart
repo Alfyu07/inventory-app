@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        home: MainPage(),
+        home: LoginPage(),
       ),
     );
   }
