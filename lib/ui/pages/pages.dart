@@ -17,6 +17,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:inventory_app/bloc/bloc.dart';
 import 'package:inventory_app/cubit/asset_cubit.dart';
 import 'package:inventory_app/cubit/user_cubit.dart';
 import 'package:path_provider/path_provider.dart';

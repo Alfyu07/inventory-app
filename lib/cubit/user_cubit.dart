@@ -8,9 +8,8 @@ part 'user_state.dart';
 class UserCubit extends Cubit<UserState> {
   UserCubit() : super(UserInitial());
 
-  Future<void> signIn(String email, String password) async {
-    ApiReturnValue result = await UserServices.signIn(email, password);
-
+  Future<void> getCurrentUser() async {
+    ApiReturnValue result = await UserServices.getCurrentUser();
     if (result.value != null) {
       emit(UserLoaded(result.value));
     } else {

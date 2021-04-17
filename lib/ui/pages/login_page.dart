@@ -6,6 +6,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  AuthBloc authBloc;
   bool isLoading = false;
 
   String _email, _password;
@@ -19,6 +20,18 @@ class _LoginPageState extends State<LoginPage> {
       BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
     currentFocus.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    authBloc = BlocProvider.of<AuthBloc>(context);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    authBloc.close();
   }
 
   @override
@@ -65,30 +78,96 @@ class _LoginPageState extends State<LoginPage> {
                               topLeft: Radius.circular(24),
                               topRight: Radius.circular(24)),
                         ),
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 2 * defaultMargin),
-                              Text('Email', style: blackFontStyle0),
-                              SizedBox(height: 10),
-                              _buildEmailTF(),
-                              SizedBox(height: 10),
-                              Text('Password', style: blackFontStyle0),
-                              SizedBox(height: 10),
-                              _buildPasswordTF(),
-                              _buildForgotPasswordBtn(),
-                              SizedBox(height: 20),
-                              //Button
-                              isLoading
-                                  ? SpinKitFadingCircle(
-                                      size: 45,
-                                      color: mainColor0,
-                                    )
-                                  : buildLoginBtn(),
-                              SizedBox(height: 100)
-                            ],
+                        child: BlocProvider<LoginBloc>(
+                          create: (context) => LoginBloc(authBloc),
+                          child: BlocListener<LoginBloc, LoginState>(
+                            listener: (context, state) {
+                              if (state is LoginFailure) {
+                                getx.Get.snackbar(
+                                  "",
+                                  "",
+                                  backgroundColor: 'D9435E'.toColor(),
+                                  icon: Icon(Icons.close_outlined,
+                                      color: Colors.white),
+                                  titleText: Text(
+                                    'Sign In Failed',
+                                    style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  messageText: Text(
+                                    state.error,
+                                    style: GoogleFonts.poppins(
+                                        color: Colors.white),
+                                  ),
+                                );
+                              }
+                            },
+                            child: BlocBuilder<LoginBloc, LoginState>(
+                              builder: (context, state) {
+                                return Form(
+                                  key: _formKey,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(height: 2 * defaultMargin),
+                                      Text('Email', style: blackFontStyle0),
+                                      SizedBox(height: 10),
+                                      _buildEmailTF(),
+                                      SizedBox(height: 10),
+                                      Text('Password', style: blackFontStyle0),
+                                      SizedBox(height: 10),
+                                      _buildPasswordTF(),
+                                      _buildForgotPasswordBtn(),
+                                      SizedBox(height: 20),
+                                      //Button
+                                      (state is LoginLoading)
+                                          ? SpinKitFadingCircle(
+                                              size: 45,
+                                              color: mainColor0,
+                                            )
+                                          : Container(
+                                              width: double.infinity,
+                                              height: 50,
+                                              child: ElevatedButton(
+                                                onPressed: () async {
+                                                  if (!_formKey.currentState
+                                                      .validate()) {
+                                                    return;
+                                                  }
+
+                                                  _formKey.currentState.save();
+
+                                                  BlocProvider.of<LoginBloc>(
+                                                      context)
+                                                    ..add(LoginButtonPressed(
+                                                        _email, _password));
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  elevation: 0,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                  ),
+                                                  primary: mainColor1,
+                                                ),
+                                                child: Text('Sign In',
+                                                    style: blackFontStyle0
+                                                        .copyWith(
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w700)),
+                                              ),
+                                            ),
+                                      SizedBox(height: 100)
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),
@@ -100,66 +179,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ],
       ),
-    );
-  }
-
-  Container buildLoginBtn() {
-    return Container(
-      width: double.infinity,
-      height: 50,
-      child: isLoading
-          ? loadingIndicator
-          : ElevatedButton(
-              onPressed: () async {
-                if (!_formKey.currentState.validate()) {
-                  return;
-                }
-
-                _formKey.currentState.save();
-
-                setState(() {
-                  isLoading = true;
-                });
-
-                await context.read<UserCubit>().signIn(_email, _password);
-
-                UserState state = context.read<UserCubit>().state;
-
-                if (state is UserLoaded) {
-                  context.read<AssetCubit>().getAssets();
-                  getx.Get.off(() => MainPage());
-                } else if (state is UserLoadingFailed) {
-                  getx.Get.snackbar(
-                    "",
-                    state.message,
-                    backgroundColor: 'D9435E'.toColor(),
-                    icon: Icon(Icons.close_outlined, color: Colors.white),
-                    titleText: Text(
-                      'Sign In Failed',
-                      style: GoogleFonts.poppins(
-                          color: Colors.white, fontWeight: FontWeight.w600),
-                    ),
-                    messageText: Text(
-                      state.message,
-                      style: GoogleFonts.poppins(color: Colors.white),
-                    ),
-                  );
-                  setState(() {
-                    isLoading = false;
-                  });
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                primary: mainColor1,
-              ),
-              child: Text('Sign In',
-                  style: blackFontStyle0.copyWith(
-                      color: Colors.white, fontWeight: FontWeight.w700)),
-            ),
     );
   }
 
