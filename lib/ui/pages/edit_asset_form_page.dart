@@ -209,9 +209,10 @@ class _EditAssetPageState extends State<EditAssetPage> {
                             AssetState state = context.read<AssetCubit>().state;
 
                             if (state is SingleAssetLoaded) {
-                              Get.to(AddAssetSuccessPage(asset: state.asset));
+                              getx.Get.to(() =>
+                                  AddAssetSuccessPage(asset: state.asset));
                             } else if (state is AssetLoadingFailed) {
-                              Get.snackbar(
+                              getx.Get.snackbar(
                                 "",
                                 "",
                                 backgroundColor: 'D9435E'.toColor(),

@@ -1,12 +1,14 @@
 part of 'pages.dart';
 
 class QRPage extends StatefulWidget {
+  final String hash;
+
+  const QRPage(this.hash, {Key key}) : super(key: key);
   @override
   _QRPageState createState() => new _QRPageState();
 }
 
 class _QRPageState extends State<QRPage> {
-  // bool inside = false;
   final globalKey = GlobalKey();
 
   Future<void> writeToFile(ByteData data, String path) async {
@@ -32,7 +34,9 @@ class _QRPageState extends State<QRPage> {
       String path = '$tempPath/$ts.png';
       await writeToFile(ByteData.sublistView(pngBytes), path);
       return path;
-    } catch (exception) {}
+    } catch (exception) {
+      return null;
+    }
   }
 
   @override
@@ -62,7 +66,7 @@ class _QRPageState extends State<QRPage> {
                 margin: EdgeInsets.all(6),
                 child: IconButton(
                   onPressed: () {
-                    Get.to(() => MainPage());
+                    getx.Get.back();
                   },
                   icon: Icon(Icons.close_rounded,
                       size: 32.0, color: Colors.white),
@@ -108,7 +112,7 @@ class _QRPageState extends State<QRPage> {
                         )
                       ]),
                   child: QrImage(
-                    data: 'any text here',
+                    data: widget.hash,
                     version: QrVersions.auto,
                     size: 320,
                     gapless: false,

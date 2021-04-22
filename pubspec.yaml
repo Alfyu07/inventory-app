@@ -41,6 +41,7 @@ dependencies:
   qr_flutter: ^4.0.0
   qrscan: ^0.3.1
   share: ^2.0.1
+  shared_preferences: ^2.0.5
   supercharged: ^2.0.0
   url_launcher: ^6.0.2
 

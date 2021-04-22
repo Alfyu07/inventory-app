@@ -15,7 +15,7 @@ class NotFoundPage extends StatelessWidget {
         picturePath: 'assets/404_error.png',
         buttonTap1: () {
           context.read<AssetCubit>().getAssets();
-          Get.offAll(MainPage());
+          getx.Get.offAll(() => MainPage());
         },
         buttonTitle1: 'Kembali ke home',
       ),

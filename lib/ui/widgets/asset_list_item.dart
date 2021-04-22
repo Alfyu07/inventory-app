@@ -17,8 +17,10 @@ class AssetListItem extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(6),
             image: DecorationImage(
-                // image: NetworkImage("http://10.0.2.2:8000/storage/" + asset.picturePath),
-                image: NetworkImage(asset.picturePath),
+                image: NetworkImage(
+                    "https://inventory-lpp.herokuapp.com/storage/" +
+                        asset.picturePath),
+                // image: NetworkImage(asset.picturePath),
                 fit: BoxFit.cover),
           ),
         ),

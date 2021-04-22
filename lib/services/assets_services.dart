@@ -3,46 +3,45 @@ part of 'services.dart';
 class AssetServices {
   static Future<ApiReturnValue<List<Asset>>> getAssets(
       {int page, int limit, String sort, http.Client client}) async {
-    // client ??= http.Client();
+    client ??= http.Client();
 
-    // final Map<String, String> params = {'page': page.toString()};
-    // if (limit != null) {
-    //   params['limit'] = limit.toString();
-    // }
-    // if (sort != null) {
-    //   params['sort'] = sort;
-    // }
-    // var uri = Uri.http("10.0.2.2:8000", '/api/asset', params);
+    final Map<String, String> params = {'page': page.toString()};
+    if (limit != null) {
+      params['limit'] = limit.toString();
+    }
+    if (sort != null) {
+      params['sort'] = sort;
+    }
+    var uri = Uri.https("inventory-lpp.herokuapp.com", '/api/asset', params);
 
-    // var response = await client.get(
-    //   uri,
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "Authorization": "Bearer ${User.token}"
-    //   },
-    // );
+    var response = await client.get(
+      uri,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${User.token}"
+      },
+    );
 
-    // if (response.statusCode != 200) {
-    //   return ApiReturnValue(message: "Please try again");
-    // }
-    // var data = jsonDecode(response.body);
+    if (response.statusCode != 200) {
+      return ApiReturnValue(message: "Please try again");
+    }
+    var data = jsonDecode(response.body);
 
-    // List<Asset> assets = (data['data']['data'] as Iterable)
-    //     .map((e) => Asset.fromJson(e))
-    //     .toList();
+    List<Asset> assets = (data['data']['data'] as Iterable)
+        .map((e) => Asset.fromJson(e))
+        .toList();
 
-    return ApiReturnValue(value: mockAssets);
-
-    //TODO: implement reply http request
+    return ApiReturnValue(value: assets);
   }
 
-  static Future<ApiReturnValue<List<Asset>>> getAssetById(int id,
+  static Future<ApiReturnValue<Asset>> getAssetByHash(String hash,
       {http.Client client}) async {
     try {
       client ??= http.Client();
 
-      String url = baseUrl + 'assets?id=${id.toString()}';
-      var uri = Uri.parse(url);
+      final Map<String, String> params = {'hash': hash};
+      var uri = Uri.https("inventory-lpp.herokuapp.com", '/api/asset', params);
+
       var response = await client.get(
         uri,
         headers: {
@@ -93,7 +92,8 @@ class AssetServices {
 
     Asset value = Asset.fromJson(data['data']['asset']);
     value = value.copyWith(
-        picturePath: "http://10.0.2.2:8000/storage/" + value.picturePath);
+        picturePath:
+            "https://inventory-lpp.herokuapp.com/storage/" + value.picturePath);
     print(value.picturePath);
     return ApiReturnValue(value: value);
   }
@@ -153,8 +153,37 @@ class AssetServices {
 
     Asset value = Asset.fromJson(data['data']['asset']);
     value = value.copyWith(
-        picturePath: "http://10.0.2.2:8000/storage/" + value.picturePath);
+        picturePath:
+            "https://inventory-lpp.herokuapp.com/storage/" + value.picturePath);
     print(value.picturePath);
     return ApiReturnValue(value: value);
+  }
+
+  static Future<ApiReturnValue<List<Asset>>> search(String name,
+      {http.Client client}) async {
+    try {
+      client ??= http.Client();
+
+      String url = baseUrl + 'assets';
+      var uri = Uri.parse(url);
+      var response = await client.post(uri,
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode(<String, String>{
+            'name': name,
+          }));
+
+      if (response.statusCode != 200) {
+        return ApiReturnValue(message: 'Please try again');
+      }
+
+      var data = jsonDecode(response.body);
+
+      List<Asset> products =
+          (data['data'] as Iterable).map((e) => Asset.fromJson(e)).toList();
+
+      return ApiReturnValue(value: products);
+    } on Exception catch (e) {
+      return ApiReturnValue(message: e.toString());
+    }
   }
 }

@@ -191,7 +191,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
                           if (state is SingleAssetLoaded) {
                             asset = state.asset;
                           } else if (state is AssetLoadingFailed) {
-                            Get.snackbar(
+                            getx.Get.snackbar(
                               "",
                               "",
                               backgroundColor: 'D9435E'.toColor(),
@@ -212,7 +212,7 @@ class _AddAssetPageState extends State<AddAssetPage> {
                               isLoading = false;
                             });
                           }
-                          Get.to(() => AddAssetSuccessPage(asset: asset));
+                          getx.Get.to(() => AddAssetSuccessPage(asset: asset));
                         },
                         style: ElevatedButton.styleFrom(
                           elevation: 0,

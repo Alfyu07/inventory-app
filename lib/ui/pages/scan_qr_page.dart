@@ -44,8 +44,12 @@ class _ScanQRPageState extends State<ScanQRPage> {
                     height: 45,
                     child: ElevatedButton(
                       onPressed: () async {
-                        if (result == null) {
-                          scanQRcode();
+                        await scanQRCode();
+                        context.read<AssetCubit>().getAssetByHash(result);
+
+                        final state = context.read<AssetCubit>().state;
+                        if (state is SingleAssetLoaded) {
+                          getx.Get.to(() => DetailPage(asset: state.asset));
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -75,7 +79,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
     );
   }
 
-  Future<void> scanQRcode() async {
+  Future<void> scanQRCode() async {
     try {
       await Permission.camera.request();
       String qrResult = await scanner.scan();

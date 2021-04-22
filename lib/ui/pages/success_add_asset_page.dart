@@ -13,13 +13,13 @@ class AddAssetSuccessPage extends StatelessWidget {
         title: 'Request Berhasil!',
         subtitle: 'Barang berhasil ditambahkan',
         buttonTap1: () {
-          Get.to(DetailPage(asset: asset));
+          getx.Get.to(() => DetailPage(asset: asset));
         },
         buttonTitle1: 'Lihat detail barang',
         picturePath: 'assets/done.png',
         buttonTap2: () {
           context.read<AssetCubit>().getAssets();
-          Get.offAll(MainPage());
+          getx.Get.offAll(() => MainPage());
         },
         buttonTitle2: 'Kembali ke home',
       ),
