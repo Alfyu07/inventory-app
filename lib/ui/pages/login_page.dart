@@ -25,7 +25,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    authBloc = BlocProvider.of<AuthBloc>(context);
   }
 
   @override
@@ -36,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    authBloc = BlocProvider.of<AuthBloc>(context);
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
@@ -138,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                                                   }
 
                                                   _formKey.currentState.save();
-
+                                                  print(User.token);
                                                   BlocProvider.of<LoginBloc>(
                                                       context)
                                                     ..add(LoginButtonPressed(

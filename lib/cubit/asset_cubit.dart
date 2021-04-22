@@ -22,11 +22,11 @@ class AssetCubit extends Cubit<AssetState> {
     }
   }
 
-  Future<void> getAssetById(int id) async {
-    ApiReturnValue<List<Asset>> result = await AssetServices.getAssetById(id);
+  Future<void> getAssetByHash(String hash) async {
+    ApiReturnValue<Asset> result = await AssetServices.getAssetByHash(hash);
 
     if (result.value != null) {
-      emit(AssetLoaded(assets: result.value));
+      emit(SingleAssetLoaded(result.value));
     } else if (result.value == null) {
       emit(AssetLoadingFailed(result.message));
     }

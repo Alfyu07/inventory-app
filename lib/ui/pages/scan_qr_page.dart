@@ -44,7 +44,13 @@ class _ScanQRPageState extends State<ScanQRPage> {
                     height: 45,
                     child: ElevatedButton(
                       onPressed: () async {
-                        scanQRCode();
+                        await scanQRCode();
+                        context.read<AssetCubit>().getAssetByHash(result);
+
+                        final state = context.read<AssetCubit>().state;
+                        if (state is SingleAssetLoaded) {
+                          getx.Get.to(() => DetailPage(asset: state.asset));
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         elevation: 0,

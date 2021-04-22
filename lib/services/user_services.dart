@@ -3,7 +3,7 @@ part of 'services.dart';
 class UserServices {
   static Future<bool> hasToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token') != null;
+    return prefs.getString('token') != "";
   }
 
   static Future<String> getToken() async {
@@ -19,8 +19,8 @@ class UserServices {
 
   static void deleteToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('token', null);
-    User.token = null;
+    prefs.setString('token', "");
+    User.token = "";
   }
 
   static Future<ApiReturnValue<User>> signIn(String email, String password,
@@ -63,7 +63,7 @@ class UserServices {
     try {
       client ??= http.Client();
 
-      String url = baseUrl + 'login';
+      String url = baseUrl + 'logout';
       var uri = Uri.parse(url);
       var response = await client.post(
         uri,
@@ -77,7 +77,7 @@ class UserServices {
         return ApiReturnValue(message: "Please try again");
       }
 
-      deleteToken();
+      UserServices.deleteToken();
 
       return ApiReturnValue(value: "Sign out success");
     } on SocketException {
@@ -98,7 +98,7 @@ class UserServices {
 
       String url = baseUrl + 'user';
       var uri = Uri.parse(url);
-      print(User.token);
+      // print(User.token);
 
       var response = await client.get(
         uri,

@@ -10,18 +10,26 @@ class _DashboardPageState extends State<DashboardPage> {
   String sortBy;
   int page;
   ScrollController scrollController;
-  bool isLoading;
+  AuthBloc authBloc;
+
   @override
   void initState() {
     super.initState();
     sortBy = sort[0];
     scrollController = ScrollController();
     page = 1;
-    isLoading = false;
+  }
+
+  void dispose() {
+    super.dispose();
+    sortBy = sort[0];
+    scrollController.dispose();
+    authBloc.close();
   }
 
   @override
   Widget build(BuildContext context) {
+    authBloc = BlocProvider.of<AuthBloc>(context);
     scrollController.addListener(() {
       double maxScroll = scrollController.position.maxScrollExtent;
       double currentScroll = scrollController.position.pixels;
@@ -43,13 +51,12 @@ class _DashboardPageState extends State<DashboardPage> {
                 Row(
                   children: [
                     GestureDetector(
-                      //TODO: Tambah Searching
                       onTap: () async {
                         final Asset result = await showSearch(
                           context: context,
-                          delegate: BarangSearch(),
+                          delegate: AssetSearch(),
                         );
-                        getx.Get.to(() => DetailPage());
+                        getx.Get.to(() => DetailPage(asset: result));
                       },
                       child: Container(
                         width: 24,
@@ -64,8 +71,10 @@ class _DashboardPageState extends State<DashboardPage> {
                       ),
                     ),
                     GestureDetector(
-                      //TODO: Tambah routing logout
-                      onTap: () {},
+                      onTap: () async {
+                        authBloc..add(UserLoggedOut());
+                        print("Check");
+                      },
                       child: Container(
                         width: 24,
                         height: 24,
@@ -207,36 +216,4 @@ class _DashboardPageState extends State<DashboardPage> {
       ])
     ]);
   }
-}
-
-class BarangSearch extends SearchDelegate<Asset> {
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    //Actions for appbar
-    return [
-      IconButton(
-          icon: Icon(Icons.clear),
-          onPressed: () {
-            query = "";
-          }),
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-        icon: AnimatedIcon(
-          icon: AnimatedIcons.menu_arrow,
-          progress: transitionAnimation,
-        ),
-        onPressed: () {
-          close(context, null);
-        });
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {}
-
-  @override
-  Widget buildSuggestions(BuildContext context) {}
 }

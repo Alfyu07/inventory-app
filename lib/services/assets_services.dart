@@ -32,17 +32,16 @@ class AssetServices {
         .toList();
 
     return ApiReturnValue(value: assets);
-
-    //TODO: implement reply http request
   }
 
-  static Future<ApiReturnValue<List<Asset>>> getAssetById(int id,
+  static Future<ApiReturnValue<Asset>> getAssetByHash(String hash,
       {http.Client client}) async {
     try {
       client ??= http.Client();
 
-      String url = baseUrl + 'assets?id=${id.toString()}';
-      var uri = Uri.parse(url);
+      final Map<String, String> params = {'hash': hash};
+      var uri = Uri.https("inventory-lpp.herokuapp.com", '/api/asset', params);
+
       var response = await client.get(
         uri,
         headers: {
@@ -158,5 +157,33 @@ class AssetServices {
             "https://inventory-lpp.herokuapp.com/storage/" + value.picturePath);
     print(value.picturePath);
     return ApiReturnValue(value: value);
+  }
+
+  static Future<ApiReturnValue<List<Asset>>> search(String name,
+      {http.Client client}) async {
+    try {
+      client ??= http.Client();
+
+      String url = baseUrl + 'assets';
+      var uri = Uri.parse(url);
+      var response = await client.post(uri,
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode(<String, String>{
+            'name': name,
+          }));
+
+      if (response.statusCode != 200) {
+        return ApiReturnValue(message: 'Please try again');
+      }
+
+      var data = jsonDecode(response.body);
+
+      List<Asset> products =
+          (data['data'] as Iterable).map((e) => Asset.fromJson(e)).toList();
+
+      return ApiReturnValue(value: products);
+    } on Exception catch (e) {
+      return ApiReturnValue(message: e.toString());
+    }
   }
 }

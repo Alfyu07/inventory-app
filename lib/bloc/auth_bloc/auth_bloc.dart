@@ -41,16 +41,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
 
     if (event is UserLoggedIn) {
+      print(User.token);
       yield Authenticated(user: event.user);
     }
 
     if (event is UserLoggedOut) {
+      yield AuthLoading();
+
       try {
         final ApiReturnValue<String> result = await UserServices.signOut();
         if (result.value != null) {
           yield Unauthenticated();
         } else {
-          return;
+          yield AuthFailure('An unknown error occurred');
         }
       } catch (e) {
         yield AuthFailure(e.message ?? 'An unknown error occurred');

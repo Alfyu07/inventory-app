@@ -34,7 +34,9 @@ class _QRPageState extends State<QRPage> {
       String path = '$tempPath/$ts.png';
       await writeToFile(ByteData.sublistView(pngBytes), path);
       return path;
-    } catch (exception) {}
+    } catch (exception) {
+      return null;
+    }
   }
 
   @override

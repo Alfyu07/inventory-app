@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'dart:ui' as ui;
 import 'dart:ui';
 
-import 'package:crypt/crypt.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
